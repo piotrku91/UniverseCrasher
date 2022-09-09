@@ -12,25 +12,25 @@ class GameObject;
 
 class WindowDrawManager final {
 private:
-    SDL_Window* WindowDrawManager_;
+    SDL_Window* SDLWindow_;
     SDL_Renderer* renderer_;
     bool isDestroyed;
+    bool Created_;
 
 public:
-    WindowDrawManager(const std::string& Caption, int sizeW, int sizeH);
+    WindowDrawManager();
     ~WindowDrawManager();
 
     void render(int posX, int posY, SDL_Texture* texture);
     void render(int posX, int posY, int sizeW, int sizeH, SDL_Texture* texture, int srcShiftX = 0, int srcShiftY = 0);
     void render(std::shared_ptr<GameObject>& objectToRender);
     void renderAllObjects(std::vector<std::shared_ptr<GameObject>>& allObjects);
-
-    SDL_Texture* loadTextureFromFile(const std::string& Path);
-
+    
+    void create(const std::string& Caption, int sizeW, int sizeH);
     void destroy();
     void clear();
     void draw();
 
     SDL_Renderer* getRenderer();
-    SDL_Window* getWindowDrawManager() const;
+    SDL_Window* getSDLWindow() const;
 };

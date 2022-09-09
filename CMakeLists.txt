@@ -46,11 +46,13 @@ include_directories(${PROJECT_NAME} ${SDL2_INCLUDE_DIRS})
 include_directories(${PROJECT_NAME} PUBLIC Utilities)
 add_subdirectory(Drawing)
 add_subdirectory(GameObjects)
+add_subdirectory(Game)
 
 #enable_testing()
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(DrawingLib GameObjectsLib)
+target_link_libraries(GameManager DrawingLib)
 target_link_libraries(
     ${PROJECT_NAME}
     GL
@@ -58,6 +60,7 @@ target_link_libraries(
     SDL2_image
     GameObjectsLib
     DrawingLib
+    GameManager
 )
 
 #add_executable(${PROJECT_NAME}-ut test.cpp Player.cpp Cards.hpp)

@@ -2,16 +2,9 @@
 #include "WindowDrawManager.hpp"
 #include "GameObject.hpp"
 
-WindowDrawManager::WindowDrawManager(const std::string &Caption, int sizeW, int sizeH)
-    : isDestroyed(false)
+WindowDrawManager::WindowDrawManager()
+    : isDestroyed(false), Created_(false)
 {
-    WindowDrawManager_ = SDL_CreateWindow(Caption.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, sizeW, sizeH, SDL_WINDOW_SHOWN);
-    if (WindowDrawManager_ == NULL)
-    {
-        std::cout << "WindowDrawManager Error: " << SDL_GetError() << std::endl;
-        throw;
-    }
-    renderer_ = SDL_CreateRenderer(WindowDrawManager_, -1, SDL_RENDERER_ACCELERATED);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 WindowDrawManager::~WindowDrawManager()
@@ -54,21 +47,23 @@ void WindowDrawManager::render(std::shared_ptr<GameObject> &objectToRender)
     objectToRender->drawObject(renderer_);
 };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-SDL_Texture *WindowDrawManager::loadTextureFromFile(const std::string &Path)
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+void WindowDrawManager::create(const std::string &Caption, int sizeW, int sizeH)
 {
-    SDL_Texture *texture{nullptr};
-    texture = IMG_LoadTexture(renderer_, Path.c_str());
-    if (!texture)
+SDLWindow_ = SDL_CreateWindow(Caption.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, sizeW, sizeH, SDL_WINDOW_SHOWN);
+    if (SDLWindow_ == NULL)
     {
-        std::cout << "Failed to load texture. Error: " << SDL_GetError() << std::endl;
-    };
-    return texture;
+        std::cout << "WindowDrawManager Error: " << SDL_GetError() << std::endl;
+        throw;
+    }
+    renderer_ = SDL_CreateRenderer(SDLWindow_, -1, SDL_RENDERER_ACCELERATED);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 void WindowDrawManager::destroy()
 {
     SDL_DestroyRenderer(renderer_);
-    SDL_DestroyWindow(WindowDrawManager_);
+    SDL_DestroyWindow(SDLWindow_);
     isDestroyed = true;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,6 +74,7 @@ void WindowDrawManager::clear()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 void WindowDrawManager::draw()
 {
+    SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 0); // To do: make setter of window background color.
     SDL_RenderPresent(renderer_);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +83,7 @@ SDL_Renderer *WindowDrawManager::getRenderer()
     return renderer_;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-SDL_Window *WindowDrawManager::getWindowDrawManager() const
+SDL_Window *WindowDrawManager::getSDLWindow() const
 {
-    return WindowDrawManager_;
+    return SDLWindow_;
 }
