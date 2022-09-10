@@ -45,20 +45,20 @@ find_package(SDL2 REQUIRED)
 include_directories(${PROJECT_NAME} ${SDL2_INCLUDE_DIRS})
 include_directories(${PROJECT_NAME} PUBLIC Utilities)
 add_subdirectory(Drawing)
-add_subdirectory(GameObjects)
+add_subdirectory(Objects)
 add_subdirectory(Game)
 
 #enable_testing()
 
 add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(DrawingLib GameObjectsLib)
+target_link_libraries(DrawingLib ObjectsLib)
 target_link_libraries(GameManager DrawingLib)
 target_link_libraries(
     ${PROJECT_NAME}
     GL
     SDL2
     SDL2_image
-    GameObjectsLib
+    ObjectsLib
     DrawingLib
     GameManager
 )

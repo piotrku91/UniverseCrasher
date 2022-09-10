@@ -2,7 +2,7 @@
 
 // c-tors
 TexturedObject::TexturedObject(const std::string &objectName, int posX, int posY, int sizeW, int sizeH, SDL_Texture *texture, int sourceTextureOffsetX, int sourceTextureOffsetY)
-    : GameObject{objectName, posX, posY, sizeW, sizeH}, objectTexture_{texture}, sourceTextOffsetX_{sourceTextureOffsetX}, sourceTextOffsetY_{sourceTextureOffsetY} {};
+    : GraphicsObject{objectName, posX, posY, sizeW, sizeH}, objectTexture_{texture}, sourceTextOffsetX_{sourceTextureOffsetX}, sourceTextOffsetY_{sourceTextureOffsetY} {};
 
 // Setters
 void TexturedObject::setTextureOffsetX(int sourceTextureOffsetX)

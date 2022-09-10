@@ -6,7 +6,7 @@
 
 /* #include "TextureManager.hpp"
 #include "GameObject.hpp"
-#include "SimpleRectObject.hpp"
+#include "SimpleRectangleObject.hpp"
 #include "Color.hpp" */
 #include "GameManager.hpp"
 

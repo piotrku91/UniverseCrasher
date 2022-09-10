@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GameObject.hpp"
+#include "GraphicsObject.hpp"
 
-class TexturedObject : public GameObject
+class TexturedObject : public GraphicsObject
 {
 private:
     SDL_Texture *objectTexture_;

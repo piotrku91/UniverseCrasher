@@ -1,6 +1,5 @@
 
 #include "WindowDrawManager.hpp"
-#include "GameObject.hpp"
 
 WindowDrawManager::WindowDrawManager()
     : isDestroyed(false), Created_(false)
@@ -15,15 +14,6 @@ WindowDrawManager::~WindowDrawManager()
     };
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-void WindowDrawManager::renderAllObjects(std::vector<std::shared_ptr<GameObject>> &allObjects)
-{
-
-    for (const auto &objectToRender : allObjects)
-    {
-        objectToRender->drawObject(renderer_);
-    };
-}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 void WindowDrawManager::render(int posX, int posY, SDL_Texture *texture)
 {
@@ -41,12 +31,7 @@ void WindowDrawManager::render(int posX, int posY, int sizeW, int sizeH, SDL_Tex
     SDL_Rect dest_rect{posX, posY, source_rect.w, source_rect.h};
     SDL_RenderCopy(renderer_, texture, &source_rect, &dest_rect);
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-void WindowDrawManager::render(std::shared_ptr<GameObject> &objectToRender)
-{
-    objectToRender->drawObject(renderer_);
-};
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 void WindowDrawManager::create(const std::string &Caption, int sizeW, int sizeH)

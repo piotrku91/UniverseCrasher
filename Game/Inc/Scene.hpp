@@ -11,5 +11,5 @@ class Scene
     Scene(GameObjectsList& game_objects_list):GameObjectsList_(game_objects_list){};
 
     virtual void begin() = 0;
-    virtual void tick() = 0;
+    virtual void tick(uint32_t delta_time) = 0;
 };
