@@ -1,8 +1,11 @@
 #pragma once
 #include "GameObject.hpp"
+#include "Controller.hpp"
 #include "Debug.hpp"
+#include "GameManager.hpp"
 
-class Player : public GameObject
+
+class Player : public GameObject, public Controller
 {
 
 public:
@@ -10,8 +13,18 @@ public:
 
     virtual void tick(uint32_t delta_time) override
     {
-        getObjectRect().x += 1 * delta_time;
+       
     };
+
+    virtual void moveRight() override 
+    {
+        getObjectRect().x += 1 * GameManager::getInstance().getDeltaTime();
+    }
+
+     virtual void moveLeft() override 
+    {
+        getObjectRect().x -= 1 * GameManager::getInstance().getDeltaTime();
+    }
 
     virtual void onCollision(std::shared_ptr<GameObject> &other)
     { 

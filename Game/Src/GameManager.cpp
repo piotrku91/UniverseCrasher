@@ -2,12 +2,14 @@
 #include "WindowDrawManager.hpp"
 #include "GraphicsObject.hpp"
 #include "GameObject.hpp"
+#include "Controller.hpp"
 #include <algorithm>
 
 void GameManager::runGameLoop()
 {
     while (!ExitApp_)
     {
+        updateDeltaTime();
         handleEvents();
 
         switch (CurrentGameState_)
@@ -20,7 +22,7 @@ void GameManager::runGameLoop()
         }
         case GameState::Play:
         {
-            updateDeltaTime();
+
             checkCollisions();
             removeDestroyedObjects();
 
@@ -60,6 +62,10 @@ void GameManager::runGameLoop()
 void GameManager::initMainWindow()
 {
     WindowDrawManager_.create("New game", MAX_X, MAX_Y);
+    InputBindings_.insert({SDL_SCANCODE_LEFT, [this]()
+                           { dynamic_cast<Controller *>(PlayerGameObject_.get())->moveLeft(); }});
+    InputBindings_.insert({SDL_SCANCODE_RIGHT, [this]()
+                           { dynamic_cast<Controller *>(PlayerGameObject_.get())->moveRight(); }});
 }
 
 void GameManager::initTextureManager()
@@ -140,14 +146,32 @@ void GameManager::handleEvents()
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
-        if (event.type == SDL_WINDOWEVENT)
+        switch (event.type)
+        {
+        case SDL_WINDOWEVENT:
         {
 
             if (event.window.event == SDL_WINDOWEVENT_CLOSE)
             {
                 ExitApp_ = true;
-                return;
+                break;
             }
+            break;
         }
+
+        default:
+            break;
+        };
     }
+
+    int num = 0;
+    const Uint8 *keyboard = SDL_GetKeyboardState(&num);
+    for (auto &key : InputBindings_)
+    {
+
+        if (keyboard[key.first])
+        {
+            key.second();
+        }
+    };
 }

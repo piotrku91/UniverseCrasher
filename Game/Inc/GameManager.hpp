@@ -7,6 +7,8 @@
 #include "TextureManager.hpp"
 #include "Defines.h"
 #include "Debug.hpp"
+#include <map>
+#include <functional>
 
 #include "SceneFirst.hpp"
 
@@ -21,6 +23,7 @@ private:
     std::shared_ptr<GameObject> PlayerGameObject_;
     std::shared_ptr<Scene> CurrentScene_;
     GameState CurrentGameState_;
+    std::map<uint8_t, std::function<void()>> InputBindings_;
 
     bool ExitApp_;
     uint64_t LastTick_;
