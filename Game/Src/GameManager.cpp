@@ -8,6 +8,8 @@ void GameManager::runGameLoop()
 {
     while (!ExitApp_)
     {
+        handleEvents();
+
         switch (CurrentGameState_)
         {
         case GameState::MainMenu:
@@ -18,9 +20,16 @@ void GameManager::runGameLoop()
         }
         case GameState::Play:
         {
+            updateDeltaTime();
             checkCollisions();
             removeDestroyedObjects();
+
             CurrentScene_->tick(getDeltaTime());
+
+            for (auto &game_object : GameObjects_)
+            {
+                game_object->tick(getDeltaTime());
+            }
 
             WindowDrawManager_.clear();
             WindowDrawManager_.renderAllObjects(RawGraphicsObjects_);
@@ -45,6 +54,7 @@ void GameManager::runGameLoop()
 
         WindowDrawManager_.draw();
     }
+    WindowDrawManager_.destroy();
 }
 
 void GameManager::initMainWindow()
@@ -99,18 +109,45 @@ std::shared_ptr<GameObject> GameManager::getPlayerGameObject()
     return nullptr;
 }
 
-uint64_t GameManager::getDeltaTime()
+uint32_t GameManager::getDeltaTime()
+{
+    return CurrentDeltaTime_;
+}
+
+void GameManager::updateDeltaTime()
 {
     uint64_t tick_time = SDL_GetTicks64();
-    uint64_t delta_time = tick_time - LastTick_;
+    CurrentDeltaTime_ = static_cast<uint32_t>(tick_time - LastTick_);
     LastTick_ = tick_time;
-
-    return delta_time;
 }
 
 void GameManager::removeDestroyedObjects()
 {
+    if (PlayerGameObject_->readyToDestroy())
+    {
+        PlayerGameObject_ = nullptr;
+    };
+
     std::erase_if(GameObjects_,
-                  [](auto game_object)
-                  { return game_object->readyToDestroy(); });
+                  [this](auto game_object)
+                  {
+                      return game_object->readyToDestroy();
+                  });
+}
+
+void GameManager::handleEvents()
+{
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        if (event.type == SDL_WINDOWEVENT)
+        {
+
+            if (event.window.event == SDL_WINDOWEVENT_CLOSE)
+            {
+                ExitApp_ = true;
+                return;
+            }
+        }
+    }
 }

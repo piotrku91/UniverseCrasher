@@ -1,8 +1,9 @@
 #pragma once
 #include <memory>
+#include "Tickable.hpp"
 #include "Defines.h"
 
-class Scene
+class Scene : public Tickable
 {
     protected:
     GameObjectsList& GameObjectsList_;
@@ -10,6 +11,4 @@ class Scene
     public:
     Scene(GameObjectsList& game_objects_list):GameObjectsList_(game_objects_list){};
 
-    virtual void begin() = 0;
-    virtual void tick(uint32_t delta_time) = 0;
 };

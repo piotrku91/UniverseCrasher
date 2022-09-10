@@ -29,9 +29,8 @@ Game.runGameLoop();
  //Create textured objects
 //Objects.push_back(std::make_shared<TexturedObject>(TexturedObject{"texturowy 1",32,32,128,128,TextureMgr["first"]}));//
 
-SDL_Delay(2000);
+SDL_Delay(50);
 
 // Cleaning
-//mainWindowDrawManager.destroy(); 
     return 0;
 }

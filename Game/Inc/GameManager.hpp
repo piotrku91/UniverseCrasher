@@ -13,7 +13,7 @@
 class GameManager
 {
 private:
-    GameManager() : CurrentGameState_(GameState::MainMenu), ExitApp_(false), PlayerGameObject_(nullptr), LastTick_(0){};
+    GameManager() : PlayerGameObject_(nullptr), CurrentGameState_(GameState::MainMenu), ExitApp_(false), LastTick_(0){};
     WindowDrawManager WindowDrawManager_;
     TextureManager TextureManager_;
     GameObjectsList GameObjects_;
@@ -24,6 +24,7 @@ private:
 
     bool ExitApp_;
     uint64_t LastTick_;
+    uint32_t CurrentDeltaTime_;
 
 public:
     static GameManager &getInstance()
@@ -37,11 +38,13 @@ public:
     void runGameLoop();
     void checkCollisions();
     void removeDestroyedObjects();
+    void handleEvents();
 
     /* Setters */
     void setPlayerGameObject(std::shared_ptr<GameObject> &player_game_object);
 
     /* Getters */
     std::shared_ptr<GameObject> getPlayerGameObject();
-    uint64_t getDeltaTime();
+    uint32_t getDeltaTime();
+    void updateDeltaTime();
 };
