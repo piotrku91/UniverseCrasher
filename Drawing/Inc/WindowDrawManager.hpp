@@ -7,6 +7,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
+#include "Maths.hpp"
 
 class GameObject;
 
@@ -23,7 +24,7 @@ public:
     ~WindowDrawManager();
 
     void render(int posX, int posY, SDL_Texture *texture);
-    void render(int posX, int posY, int sizeW, int sizeH, SDL_Texture *texture, int srcShiftX = 0, int srcShiftY = 0);
+    void render(Vector2d position, Size size, SDL_Texture *texture, int srcShiftX = 0, int srcShiftY = 0);
 
     /* Template functions */
     template <typename T>

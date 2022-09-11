@@ -28,6 +28,8 @@ private:
     bool ExitApp_;
     uint64_t LastTick_;
     uint32_t CurrentDeltaTime_;
+    int InputDx_;
+    int InputDy_;
 
 public:
     static GameManager &getInstance()
@@ -42,6 +44,7 @@ public:
     void checkCollisions();
     void removeDestroyedObjects();
     void handleEvents();
+    void clearInput();
 
     /* Setters */
     void setPlayerGameObject(std::shared_ptr<GameObject> &player_game_object);

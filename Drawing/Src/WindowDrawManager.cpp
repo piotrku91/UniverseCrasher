@@ -1,5 +1,6 @@
 
 #include "WindowDrawManager.hpp"
+#include "Maths.hpp"
 
 WindowDrawManager::WindowDrawManager()
     : isDestroyed(false), Created_(false)
@@ -25,10 +26,10 @@ void WindowDrawManager::render(int posX, int posY, SDL_Texture *texture)
     SDL_RenderCopy(renderer_, texture, &source_rect, &dest_rect);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-void WindowDrawManager::render(int posX, int posY, int sizeW, int sizeH, SDL_Texture *texture, int srcShiftX, int srcShiftY)
+void WindowDrawManager::render(Vector2d position, Size size, SDL_Texture *texture, int srcShiftX, int srcShiftY)
 {
-    SDL_Rect source_rect{srcShiftX, srcShiftY, sizeW, sizeH};
-    SDL_Rect dest_rect{posX, posY, source_rect.w, source_rect.h};
+    SDL_Rect source_rect{srcShiftX, srcShiftY, size.width, size.height};
+    SDL_Rect dest_rect{position.getX(), position.getY(), source_rect.w, source_rect.h};
     SDL_RenderCopy(renderer_, texture, &source_rect, &dest_rect);
 }
 

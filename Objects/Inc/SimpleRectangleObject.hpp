@@ -9,7 +9,7 @@ protected:
 public:
     const Color &getColor() { return objectColor_; };
 
-    SimpleRectangleObject(const std::string &objectName, int posX, int posY, int sizeW, int sizeH, Color objectColor);
+    SimpleRectangleObject(const std::string &objectName, Vector2d position, Size size, Color objectColor);
 
     void drawObject(SDL_Renderer *renderer) override;
 };

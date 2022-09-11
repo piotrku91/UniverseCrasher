@@ -1,7 +1,7 @@
 #include "SimpleRectangleObject.hpp"
 
-SimpleRectangleObject::SimpleRectangleObject(const std::string &objectName, int posX, int posY, int sizeW, int sizeH, Color objectColor)
-    : GraphicsObject{objectName, posX, posY, sizeW, sizeH}, objectColor_{objectColor} {};
+SimpleRectangleObject::SimpleRectangleObject(const std::string &objectName, Vector2d position, Size size, Color objectColor)
+    : GraphicsObject{objectName, position, size}, objectColor_{objectColor} {};
 
 void SimpleRectangleObject::drawObject(SDL_Renderer *renderer)
 {

@@ -1,9 +1,19 @@
 #pragma once
+#include <numeric>
+
+constexpr int MaxSpeed_ = 100;
 
 class Controller
 {
-    public:
+private:
+    int Speed_ = 20;
+    int Count_ = 0;
 
-    virtual void moveLeft() = 0;
-    virtual void moveRight() = 0;
+protected:
+    bool CanMove_ = false;
+
+public:
+    virtual void move(int dX, int dY);
+    void updateController(int dX, int dY);
+    void setSpeed(int speed);
 };

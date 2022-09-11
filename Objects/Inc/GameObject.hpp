@@ -33,6 +33,6 @@ public:
         return DestroyFlag_;
     }
 
-    GameObject(const std::string &objectName, int posX, int posY, int sizeW, int sizeH, Color objectColor)
-        : SimpleRectangleObject{objectName, posX, posY, sizeW, sizeH, objectColor}, DestroyFlag_(false) { begin(); };
+    GameObject(const std::string &objectName, Vector2d position, Size size, Color objectColor)
+        : SimpleRectangleObject{objectName, position, size, objectColor}, DestroyFlag_(false) { begin(); };
 };

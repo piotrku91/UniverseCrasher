@@ -4,6 +4,7 @@
 #include "GameObject.hpp"
 #include "Controller.hpp"
 #include <algorithm>
+#include <numeric>
 
 void GameManager::runGameLoop()
 {
@@ -22,9 +23,12 @@ void GameManager::runGameLoop()
         }
         case GameState::Play:
         {
+            Controller *player_controller = dynamic_cast<Controller *>(PlayerGameObject_.get());
 
             checkCollisions();
             removeDestroyedObjects();
+
+            player_controller->move(InputDx_, InputDy_);
 
             CurrentScene_->tick(getDeltaTime());
 
@@ -36,6 +40,8 @@ void GameManager::runGameLoop()
             WindowDrawManager_.clear();
             WindowDrawManager_.renderAllObjects(RawGraphicsObjects_);
             WindowDrawManager_.renderAllObjects(GameObjects_);
+
+            clearInput();
 
             break;
         }
@@ -62,10 +68,24 @@ void GameManager::runGameLoop()
 void GameManager::initMainWindow()
 {
     WindowDrawManager_.create("New game", MAX_X, MAX_Y);
+
     InputBindings_.insert({SDL_SCANCODE_LEFT, [this]()
-                           { dynamic_cast<Controller *>(PlayerGameObject_.get())->moveLeft(); }});
+                           { 
+                            InputDx_--;
+                            InputDx_ = std::clamp(InputDx_, -1, 0); }});
+
     InputBindings_.insert({SDL_SCANCODE_RIGHT, [this]()
-                           { dynamic_cast<Controller *>(PlayerGameObject_.get())->moveRight(); }});
+                           {
+                          InputDx_++;
+                            InputDx_ = std::clamp(InputDx_, 0, 1); }});
+    InputBindings_.insert({SDL_SCANCODE_UP, [this]()
+                           { 
+                            InputDy_--;
+                            InputDy_ = std::clamp(InputDy_, -1, 10); }});
+    InputBindings_.insert({SDL_SCANCODE_DOWN, [this]()
+                           { 
+                            InputDy_++;
+                            InputDy_ = std::clamp(InputDy_, 0, 1); }});
 }
 
 void GameManager::initTextureManager()
@@ -83,7 +103,7 @@ void GameManager::startNewGame()
     CurrentScene_ = std::make_shared<SceneFirst>(GameObjects_);
     CurrentScene_->begin();
 
-    RawGraphicsObjects_.push_back(createObject<SimpleRectangleObject>({"HUD Bar", 0, 0, MAX_X, 30, Color{0, 100, 100, 255}}));
+    RawGraphicsObjects_.push_back(createObject<SimpleRectangleObject>({"HUD Bar", {0, 0}, {MAX_X, 30}, Color{0, 100, 100, 255}}));
 }
 
 void GameManager::checkCollisions()
@@ -124,6 +144,10 @@ void GameManager::updateDeltaTime()
 {
     uint64_t tick_time = SDL_GetTicks64();
     CurrentDeltaTime_ = static_cast<uint32_t>(tick_time - LastTick_);
+    if (CurrentDeltaTime_ == 0)
+    {
+        CurrentDeltaTime_ = 1;
+    };
     LastTick_ = tick_time;
 }
 
@@ -174,4 +198,10 @@ void GameManager::handleEvents()
             key.second();
         }
     };
+}
+
+void GameManager::clearInput()
+{
+    InputDx_ = 0;
+    InputDy_ = 0;
 }
