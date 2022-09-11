@@ -26,7 +26,7 @@ public:
 
         for (const auto &objectToRender : allObjects)
         {
-            objectToRender->drawObject();
+            Window.draw(objectToRender->getSprite());
         };
     }
 

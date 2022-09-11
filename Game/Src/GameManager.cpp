@@ -1,6 +1,5 @@
 #include "GameManager.hpp"
 #include "WindowDrawManager.hpp"
-#include "GraphicsObject.hpp"
 #include "GameObject.hpp"
 #include "Controller.hpp"
 #include <algorithm>
@@ -38,7 +37,6 @@ void GameManager::runGameLoop()
             }
 
             WindowDrawManager_.clear();
-            WindowDrawManager_.renderAllObjects(RawGraphicsObjects_);
             WindowDrawManager_.renderAllObjects(GameObjects_);
 
             clearInput();
@@ -70,23 +68,25 @@ void GameManager::initMainWindow()
 {
     WindowDrawManager_.create("New game", MAX_X, MAX_Y);
 
-    InputBindings_.insert({SDL_SCANCODE_LEFT, [this]()
+    InputBindings_.insert({sf::Keyboard::Left, [this]()
                            { 
                             InputDx_--;
                             InputDx_ = std::clamp(InputDx_, -1, 0); }});
 
-    InputBindings_.insert({SDL_SCANCODE_RIGHT, [this]()
+    InputBindings_.insert({sf::Keyboard::Right, [this]()
                            {
                           InputDx_++;
                             InputDx_ = std::clamp(InputDx_, 0, 1); }});
-    InputBindings_.insert({SDL_SCANCODE_UP, [this]()
+    InputBindings_.insert({sf::Keyboard::Up, [this]()
                            { 
                             InputDy_--;
-                            InputDy_ = std::clamp(InputDy_, -1, 10); }});
-    InputBindings_.insert({SDL_SCANCODE_DOWN, [this]()
+                            InputDy_ = std::clamp(InputDy_, -1, 0); }});
+    InputBindings_.insert({sf::Keyboard::Down, [this]()
                            { 
                             InputDy_++;
                             InputDy_ = std::clamp(InputDy_, 0, 1); }});
+
+                            Clock_.restart();
 }
 
 void GameManager::initTextureManager()
@@ -103,7 +103,7 @@ void GameManager::startNewGame()
     CurrentScene_ = std::make_shared<SceneFirst>(GameObjects_);
     CurrentScene_->begin();
 
-    RawGraphicsObjects_.push_back(createObject<SimpleRectangleObject>({"HUD Bar", {0, 0}, {MAX_X, 30}, Color{0, 100, 100, 255}}));
+  //  RawGraphicsObjects_.push_back(createObject<SimpleRectangleObject>({"HUD Bar", {0, 0}, {MAX_X, 30}, Color{0, 100, 100, 255}}));
 }
 
 void GameManager::checkCollisions()
@@ -112,7 +112,15 @@ void GameManager::checkCollisions()
     {
         for (auto &other_object : GameObjects_)
         {
-            if (&object != &other_object && NULL != NULL)
+            auto& object_sprite = object->getSprite();
+            auto& other_object_sprite = other_object->getSprite();
+            bool collision = object_sprite.getGlobalBounds().intersects(sf::FloatRect(
+            other_object_sprite.getGlobalBounds().left,
+            other_object_sprite.getGlobalBounds().top,
+            other_object_sprite.getGlobalBounds().width,
+            other_object_sprite.getGlobalBounds().height));
+          
+            if (&object != &other_object && collision)
             {
                 object->onCollision(other_object);
                 other_object->onCollision(object);
@@ -135,20 +143,14 @@ std::shared_ptr<GameObject> GameManager::getPlayerGameObject()
     return nullptr;
 }
 
-uint32_t GameManager::getDeltaTime()
+float GameManager::getDeltaTime()
 {
     return CurrentDeltaTime_;
 }
 
 void GameManager::updateDeltaTime()
 {
-    uint64_t tick_time = 0;
-    CurrentDeltaTime_ = static_cast<uint32_t>(tick_time - LastTick_);
-    if (CurrentDeltaTime_ == 0)
-    {
-        CurrentDeltaTime_ = 1;
-    };
-    LastTick_ = tick_time;
+    CurrentDeltaTime_ = Clock_.restart().asSeconds();
 }
 
 void GameManager::removeDestroyedObjects()
@@ -174,6 +176,15 @@ void GameManager::handleEvents()
         {
             WindowDrawManager_.destroy();
         };
+    };
+
+    for (auto &key : InputBindings_)
+    {
+
+        if (sf::Keyboard::isKeyPressed(key.first))
+        {
+            key.second();
+        }
     };
 }
 

@@ -14,20 +14,20 @@
 class GameManager
 {
 private:
-    GameManager() : PlayerGameObject_(nullptr), CurrentGameState_(GameState::MainMenu), ExitApp_(false), LastTick_(0){};
+    GameManager() : PlayerGameObject_(nullptr), CurrentGameState_(GameState::MainMenu), ExitApp_(false){};
     WindowDrawManager WindowDrawManager_;
     GameObjectsList GameObjects_;
     GraphicsObjectsList RawGraphicsObjects_;
     std::shared_ptr<GameObject> PlayerGameObject_;
     std::shared_ptr<Scene> CurrentScene_;
     GameState CurrentGameState_;
-    std::map<uint8_t, std::function<void()>> InputBindings_;
+    std::map<sf::Keyboard::Key, std::function<void()>> InputBindings_;
 
     bool ExitApp_;
-    uint64_t LastTick_;
-    uint32_t CurrentDeltaTime_;
+    float CurrentDeltaTime_;
     int InputDx_;
     int InputDy_;
+    sf::Clock Clock_;
 
 public:
     static GameManager &getInstance()
@@ -49,6 +49,6 @@ public:
 
     /* Getters */
     std::shared_ptr<GameObject> getPlayerGameObject();
-    uint32_t getDeltaTime();
+    float getDeltaTime();
     void updateDeltaTime();
 };

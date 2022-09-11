@@ -14,14 +14,13 @@ public:
 
     };
 
-    virtual void move(int dX, int dY) override
+    virtual void move(float dX, float dY) override
     {
         Controller::move(dX, dY);
-        if (CanMove_)
-        {
-            int delta_time = static_cast<int>(GameManager::getInstance().getDeltaTime());
-            setPosition({getPosition().getX() + (dX * delta_time), getPosition().getY() + (dY * delta_time)});
-        }
+            float delta_time = GameManager::getInstance().getDeltaTime();
+            sf::Vector2f velocity = {dX, dY};
+            Sprite_.move(velocity * delta_time * Speed_);
+           
     };
 
     virtual void onCollision(std::shared_ptr<GameObject> &other)
@@ -29,6 +28,6 @@ public:
         debug("Collision " + getObjectName() + " with " + other->getObjectName());
     };
 
-    Player(const std::string &objectName, Vector2d position, Size size, Color objectColor)
-        : GameObject{objectName, position, size, objectColor} {};
+    Player(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeX, float sizeY)
+        : GameObject{objectName, texture, posX, posY, sizeX, sizeY} {};
 };

@@ -6,14 +6,11 @@ constexpr int MaxSpeed_ = 100;
 class Controller
 {
 private:
-    int Speed_ = 20;
-    int Count_ = 0;
-
 protected:
     bool CanMove_ = false;
+    float Speed_ = 100;
 
 public:
-    virtual void move(int dX, int dY);
-    void updateController(int dX, int dY);
+    virtual void move(float dX, float dY);
     void setSpeed(int speed);
 };

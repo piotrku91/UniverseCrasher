@@ -24,6 +24,6 @@ public:
         };
     };
 
-    Box(const std::string &objectName, Vector2d position, Size size, Color objectColor)
-        : GameObject{objectName, position, size, objectColor} {};
+    Box(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeX, float sizeY)
+        : GameObject{objectName, texture, posX, posY, sizeX, sizeY} {};
 };
