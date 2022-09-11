@@ -3,8 +3,7 @@
 SimpleRectangleObject::SimpleRectangleObject(const std::string &objectName, Vector2d position, Size size, Color objectColor)
     : GraphicsObject{objectName, position, size}, objectColor_{objectColor} {};
 
-void SimpleRectangleObject::drawObject(SDL_Renderer *renderer)
+void SimpleRectangleObject::drawObject()
 {
-    SDL_SetRenderDrawColor(renderer, getColor().getR(), getColor().getG(), getColor().getB(), getColor().getA());
-    SDL_RenderFillRect(renderer, &getObjectRect());
+  
 }

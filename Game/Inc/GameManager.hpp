@@ -4,7 +4,6 @@
 #include "GameStates.hpp"
 #include "GameConst.hpp"
 #include "WindowDrawManager.hpp"
-#include "TextureManager.hpp"
 #include "Defines.h"
 #include "Debug.hpp"
 #include <map>
@@ -17,7 +16,6 @@ class GameManager
 private:
     GameManager() : PlayerGameObject_(nullptr), CurrentGameState_(GameState::MainMenu), ExitApp_(false), LastTick_(0){};
     WindowDrawManager WindowDrawManager_;
-    TextureManager TextureManager_;
     GameObjectsList GameObjects_;
     GraphicsObjectsList RawGraphicsObjects_;
     std::shared_ptr<GameObject> PlayerGameObject_;

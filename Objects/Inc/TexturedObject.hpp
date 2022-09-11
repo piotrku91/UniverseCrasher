@@ -16,7 +16,7 @@ public:
     void setTextureOffsetX(int sourceTextureOffsetX);
     void setTextureOffsetY(int sourceTextureOffsetY);
 
-    void drawObject(SDL_Renderer *renderer) override;
+    void drawObject() override;
 
     // Getters
     SDL_Texture *getObjectTexture() { return objectTexture_; };

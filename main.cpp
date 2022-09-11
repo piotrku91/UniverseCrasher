@@ -19,7 +19,7 @@ constexpr auto BIGCARD_AREA_H=270;  */
 int main() {
 GameManager& Game = GameManager::getInstance();
 Game.initMainWindow();
-Game.initTextureManager();
+//Game.initTextureManager();
 Game.runGameLoop();
 
 
@@ -28,8 +28,6 @@ Game.runGameLoop();
 
  //Create textured objects
 //Objects.push_back(std::make_shared<TexturedObject>(TexturedObject{"texturowy 1",32,32,128,128,TextureMgr["first"]}));//
-
-SDL_Delay(50);
 
 // Cleaning
     return 0;

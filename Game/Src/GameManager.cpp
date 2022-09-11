@@ -61,6 +61,7 @@ void GameManager::runGameLoop()
         }
 
         WindowDrawManager_.draw();
+        ExitApp_ = !WindowDrawManager_.isOpen();
     }
     WindowDrawManager_.destroy();
 }
@@ -90,7 +91,6 @@ void GameManager::initMainWindow()
 
 void GameManager::initTextureManager()
 {
-    TextureManager_.setRenderer(WindowDrawManager_.getRenderer());
 }
 
 void GameManager::startNewGame()
@@ -112,7 +112,7 @@ void GameManager::checkCollisions()
     {
         for (auto &other_object : GameObjects_)
         {
-            if (&object != &other_object && SDL_HasIntersection(&object->getObjectRect(), &other_object->getObjectRect()) != SDL_FALSE)
+            if (&object != &other_object && NULL != NULL)
             {
                 object->onCollision(other_object);
                 other_object->onCollision(object);
@@ -142,7 +142,7 @@ uint32_t GameManager::getDeltaTime()
 
 void GameManager::updateDeltaTime()
 {
-    uint64_t tick_time = SDL_GetTicks64();
+    uint64_t tick_time = 0;
     CurrentDeltaTime_ = static_cast<uint32_t>(tick_time - LastTick_);
     if (CurrentDeltaTime_ == 0)
     {
@@ -167,36 +167,13 @@ void GameManager::removeDestroyedObjects()
 
 void GameManager::handleEvents()
 {
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
+    sf::Event event;
+    while (WindowDrawManager_.getWindow().pollEvent(event))
     {
-        switch (event.type)
+        if (event.type == sf::Event::Closed)
         {
-        case SDL_WINDOWEVENT:
-        {
-
-            if (event.window.event == SDL_WINDOWEVENT_CLOSE)
-            {
-                ExitApp_ = true;
-                break;
-            }
-            break;
-        }
-
-        default:
-            break;
+            WindowDrawManager_.destroy();
         };
-    }
-
-    int num = 0;
-    const Uint8 *keyboard = SDL_GetKeyboardState(&num);
-    for (auto &key : InputBindings_)
-    {
-
-        if (keyboard[key.first])
-        {
-            key.second();
-        }
     };
 }
 

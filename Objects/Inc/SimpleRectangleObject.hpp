@@ -11,5 +11,5 @@ public:
 
     SimpleRectangleObject(const std::string &objectName, Vector2d position, Size size, Color objectColor);
 
-    void drawObject(SDL_Renderer *renderer) override;
+    void drawObject() override;
 };

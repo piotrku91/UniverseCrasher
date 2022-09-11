@@ -15,10 +15,7 @@ void TexturedObject::setTextureOffsetY(int sourceTextureOffsetY)
     sourceTextOffsetY_ = sourceTextureOffsetY;
 }
 
-void TexturedObject::drawObject(SDL_Renderer *renderer) 
+void TexturedObject::drawObject() 
 {
-    SDL_Rect source_rect{getTextureOffsetX(), getTextureOffsetY(), getObjectRect().w, getObjectRect().h};
-    Size_.width = source_rect.w;
-    Size_.height = source_rect.h;
-    SDL_RenderCopy(renderer, getObjectTexture(), &source_rect, &getObjectRect());
+
 }
