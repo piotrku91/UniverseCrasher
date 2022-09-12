@@ -29,5 +29,8 @@ public:
     };
 
     Player(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeX, float sizeY)
-        : GameObject{objectName, texture, posX, posY, sizeX, sizeY} {};
+        : GameObject{objectName, texture, posX, posY, sizeX, sizeY} {
+            Components_.push_back(createObject<GameObjectComponent>(this));
+
+        };
 };
