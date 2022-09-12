@@ -54,4 +54,6 @@ public:
     std::shared_ptr<GameObject> getPlayerGameObject();
     float getDeltaTime();
     void updateDeltaTime();
+
+    void applyDamage(std::shared_ptr<GameObject>& damage_target, float damage_amount, std::shared_ptr<GameObject>& trigger_object);
 };

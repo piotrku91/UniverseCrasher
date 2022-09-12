@@ -14,14 +14,19 @@ find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
 
 include_directories(${PROJECT_NAME} PUBLIC "./libs/SFML-2.5.1/include/")
 include_directories(${PROJECT_NAME} PUBLIC Utilities)
+add_subdirectory(Components)
 add_subdirectory(Drawing)
 add_subdirectory(Objects)
 add_subdirectory(Game)
+
 
 #enable_testing()
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(ObjectsLib GameManager)
+target_link_libraries(ObjectsLib Components)
+target_link_libraries(Components ObjectsLib)
+
 target_link_libraries(DrawingLib ObjectsLib)
 target_link_libraries(GameManager DrawingLib)
 target_link_libraries(
@@ -30,6 +35,7 @@ target_link_libraries(
     ObjectsLib
     DrawingLib
     GameManager
+    Components
 )
 
 #add_executable(${PROJECT_NAME}-ut test.cpp Player.cpp Cards.hpp)

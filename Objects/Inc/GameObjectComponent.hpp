@@ -14,16 +14,16 @@ class GameObjectComponent : public Tickable, public Collidable, public Damageabl
 private:
     std::string ObjectName_;
     bool DestroyFlag_;
-    GameObject* getOwner() {return Owner_;};
-
-protected:
     GameObject* Owner_;
 
+protected:
+    GameObject* getOwner() {return Owner_;};
+
 public:
-    virtual void begin(){};
-    virtual void tick([[maybe_unused]] float delta_time) {};
-    virtual void onCollision([[maybe_unused]] std::shared_ptr<GameObject> &other){};
-    virtual void onTakeDamage([[maybe_unused]] std::shared_ptr<GameObject> &other, [[maybe_unused]] float damage_amount){};
+    virtual void begin() override {};
+    virtual void tick([[maybe_unused]] float delta_time) override {};
+    virtual void onCollision([[maybe_unused]] std::shared_ptr<GameObject> &other) override {};
+    virtual void onTakeDamage([[maybe_unused]] std::shared_ptr<GameObject> &other, [[maybe_unused]] float damage_amount) override {};
 
     GameObjectComponent(class GameObject* owner):Owner_(owner){};
 };

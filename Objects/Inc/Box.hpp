@@ -20,7 +20,8 @@ public:
 
         if (other == player_object)
         {
-            destroy();
+            auto self = getSharedThis();
+            GameManager::getInstance().applyDamage(player_object, 1, self);
         };
     };
 

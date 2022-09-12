@@ -22,6 +22,7 @@ void GameManager::runGameLoop()
         }
         case GameState::Play:
         {
+            debug(PlayerGameObject_.use_count());
             checkCollisions();
             removeDestroyedObjects();
 
@@ -61,6 +62,10 @@ void GameManager::runGameLoop()
     }
     WindowDrawManager_.destroy();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                  INITS
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameManager::initMainWindow()
 {
@@ -106,6 +111,10 @@ void GameManager::startNewGame()
 
     //  RawGraphicsObjects_.push_back(createObject<SimpleRectangleObject>({"HUD Bar", {0, 0}, {MAX_X, 30}, Color{0, 100, 100, 255}}));
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                  RUNTIME FUNCTIONS
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameManager::checkCollisions()
 {
@@ -163,6 +172,8 @@ void GameManager::removeDestroyedObjects()
     if (PlayerGameObject_->readyToDestroy())
     {
         PlayerGameObject_ = nullptr;
+        PlayerController_.resetControlledObject();
+        
     };
 
     std::erase_if(GameObjects_,
@@ -197,4 +208,13 @@ void GameManager::clearInput()
 {
     InputDx_ = 0;
     InputDy_ = 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                  GAME EVENTS HANDLERS
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameManager::applyDamage(std::shared_ptr<GameObject>& damage_target, float damage_amount, std::shared_ptr<GameObject>& trigger_object)
+{
+    damage_target->onTakeDamage(trigger_object, damage_amount);
 }

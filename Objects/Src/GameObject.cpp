@@ -1,4 +1,11 @@
 #include "GameObject.hpp"
+#include "GameObjectComponent.hpp"
+#include "GameManager.hpp"
+
+std::shared_ptr<GameObject> GameObject::getSharedThis()
+{
+    return shared_from_this();
+}
 
 void GameObject::begin()
 {
