@@ -2,7 +2,6 @@
 
 #include <string>
 #include <memory>
-#include "Color.hpp"
 #include "Tickable.hpp"
 #include "Collidable.hpp"
 #include "Damageable.hpp"
@@ -22,9 +21,9 @@ protected:
 
 public:
     virtual void begin(){};
-    virtual void tick(uint32_t delta_time) {};
-    virtual void onCollision(std::shared_ptr<GameObject> &other){};
-    virtual void onTakeDamage(std::shared_ptr<GameObject> &other, float damage_amount){};
+    virtual void tick([[maybe_unused]] float delta_time) {};
+    virtual void onCollision([[maybe_unused]] std::shared_ptr<GameObject> &other){};
+    virtual void onTakeDamage([[maybe_unused]] std::shared_ptr<GameObject> &other, [[maybe_unused]] float damage_amount){};
 
     GameObjectComponent(class GameObject* owner):Owner_(owner){};
 };

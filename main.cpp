@@ -20,6 +20,7 @@ int main() {
 GameManager& Game = GameManager::getInstance();
 Game.initMainWindow();
 //Game.initTextureManager();
+Game.initKeyBindings();
 Game.runGameLoop();
 
 

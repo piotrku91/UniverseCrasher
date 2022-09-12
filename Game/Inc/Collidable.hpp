@@ -5,5 +5,5 @@
 class Collidable
 {
      
-     virtual void onCollision(std::shared_ptr<class GameObject> &other) = 0;
+     virtual void onCollision([[maybe_unused]] std::shared_ptr<class GameObject> &other) = 0;
 };

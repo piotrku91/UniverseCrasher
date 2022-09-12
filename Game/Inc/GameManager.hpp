@@ -6,6 +6,7 @@
 #include "WindowDrawManager.hpp"
 #include "Defines.h"
 #include "Debug.hpp"
+#include "Controller.hpp"
 #include <map>
 #include <functional>
 
@@ -20,6 +21,7 @@ private:
     GraphicsObjectsList RawGraphicsObjects_;
     std::shared_ptr<GameObject> PlayerGameObject_;
     std::shared_ptr<Scene> CurrentScene_;
+    Controller PlayerController_;
     GameState CurrentGameState_;
     std::map<sf::Keyboard::Key, std::function<void()>> InputBindings_;
 
@@ -37,6 +39,7 @@ public:
     };
     void initMainWindow();
     void initTextureManager();
+    void initKeyBindings();
     void startNewGame();
     void runGameLoop();
     void checkCollisions();

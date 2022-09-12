@@ -3,5 +3,5 @@
 
 class Damageable
 {
-    virtual void onTakeDamage(std::shared_ptr<class GameObject> &other, float damage_amount) = 0;
+    virtual void onTakeDamage([[maybe_unused]] std::shared_ptr<class GameObject> &other, [[maybe_unused]] float damage_amount) = 0;
 };

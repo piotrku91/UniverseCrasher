@@ -21,6 +21,7 @@ add_subdirectory(Game)
 #enable_testing()
 
 add_executable(${PROJECT_NAME} main.cpp)
+target_link_libraries(ObjectsLib GameManager)
 target_link_libraries(DrawingLib ObjectsLib)
 target_link_libraries(GameManager DrawingLib)
 target_link_libraries(

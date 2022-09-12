@@ -7,5 +7,5 @@ class SceneFirst : public Scene
     SceneFirst(GameObjectsList& game_objects_list):Scene(game_objects_list){};
 
     void begin() override;
-    void tick(uint32_t delta_time) override;
+    void tick([[maybe_unused]] float delta_time) override;
 };

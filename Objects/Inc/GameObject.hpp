@@ -2,13 +2,14 @@
 
 #include <string>
 #include <memory>
-#include "Color.hpp"
 #include "Tickable.hpp"
 #include "Collidable.hpp"
 #include "Damageable.hpp"
 #include "GameObjectComponent.hpp"
 #include "Debug.hpp"
+#include "Defines.h"
 #include "SFML/Graphics.hpp"
+#include "GameManager.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 class GameObject : public Tickable, public Collidable, public Damageable
@@ -23,55 +24,22 @@ protected:
     GameObjectsComponentsList Components_;
 
 public:
-    virtual void begin() override
-    {
-        callInAllComponents([this](auto comp)
-                            { comp->begin(); });
-    };
-    virtual void tick(uint32_t delta_time) override
-    {
-        callInAllComponents([this, delta_time](auto comp)
-                            { comp->tick(delta_time); });
-    };
+    virtual void begin() override;
+    virtual void tick([[maybe_unused]] float delta_time) override;
 
-    virtual void onCollision(std::shared_ptr<GameObject> &other) override
-    {
-        callInAllComponents([this, &other](auto comp)
-                            { comp->onCollision(other); });
-    };
-    virtual void onTakeDamage(std::shared_ptr<class GameObject> &other, float damage_amount)
-    {
-        callInAllComponents([this, &other, damage_amount](auto comp)
-                            { comp->onTakeDamage(other, damage_amount); });
-    };
-    
-    sf::Sprite &getSprite() { return Sprite_; };
-    std::string getObjectName() { return ObjectName_; };
+    virtual void onCollision(std::shared_ptr<class GameObject> &other) override;
+    virtual void onTakeDamage(std::shared_ptr<class GameObject> &other, float damage_amount);
+    void setPositionInc(sf::Vector2f position);
+    void setPositionAbs(sf::Vector2f position);
 
-    void destroy()
-    {
-        DestroyFlag_ = true;
-    }
+    sf::Sprite &getSprite();
+    std::string getObjectName();
+    void destroy();
 
-    bool readyToDestroy()
-    {
-        return DestroyFlag_;
-    }
+    bool readyToDestroy();
 
-    GameObject(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeX, float sizeY)
-        : ObjectName_(objectName), DestroyFlag_(false)
-    {
-        Sprite_ = sf::Sprite(texture, sf::IntRect(0, 0, sizeX, sizeY));
-        Sprite_.setPosition(posX, posY);
-        Sprite_.setOrigin(sf::Vector2f(15, 0));
-        begin();
-    };
+    GameObject(const std::string &objectName, const sf::Texture &texture, float posX, float posY, [[maybe_unused]] float sizeX, [[maybe_unused]] float sizeY);
 
-    void callInAllComponents(std::function<void(std::shared_ptr<GameObjectComponent>)> callback)
-    {
-        for (auto &comp : Components_)
-        {
-            callback(comp);
-        };
-    };
+private:
+    void callInAllComponents(std::function<void(std::shared_ptr<GameObjectComponent>)> callback);
 };

@@ -22,12 +22,10 @@ void GameManager::runGameLoop()
         }
         case GameState::Play:
         {
-            Controller *player_controller = dynamic_cast<Controller *>(PlayerGameObject_.get());
-
             checkCollisions();
             removeDestroyedObjects();
 
-            player_controller->move(InputDx_, InputDy_);
+            PlayerController_.moveWithSpeed(static_cast<float>(InputDx_), static_cast<float>(InputDy_));
 
             CurrentScene_->tick(getDeltaTime());
 
@@ -68,6 +66,11 @@ void GameManager::initMainWindow()
 {
     WindowDrawManager_.create("New game", MAX_X, MAX_Y);
 
+    Clock_.restart();
+}
+
+void GameManager::initKeyBindings()
+{
     InputBindings_.insert({sf::Keyboard::Left, [this]()
                            { 
                             InputDx_--;
@@ -85,8 +88,6 @@ void GameManager::initMainWindow()
                            { 
                             InputDy_++;
                             InputDy_ = std::clamp(InputDy_, 0, 1); }});
-
-                            Clock_.restart();
 }
 
 void GameManager::initTextureManager()
@@ -103,7 +104,7 @@ void GameManager::startNewGame()
     CurrentScene_ = std::make_shared<SceneFirst>(GameObjects_);
     CurrentScene_->begin();
 
-  //  RawGraphicsObjects_.push_back(createObject<SimpleRectangleObject>({"HUD Bar", {0, 0}, {MAX_X, 30}, Color{0, 100, 100, 255}}));
+    //  RawGraphicsObjects_.push_back(createObject<SimpleRectangleObject>({"HUD Bar", {0, 0}, {MAX_X, 30}, Color{0, 100, 100, 255}}));
 }
 
 void GameManager::checkCollisions()
@@ -112,14 +113,14 @@ void GameManager::checkCollisions()
     {
         for (auto &other_object : GameObjects_)
         {
-            auto& object_sprite = object->getSprite();
-            auto& other_object_sprite = other_object->getSprite();
+            auto &object_sprite = object->getSprite();
+            auto &other_object_sprite = other_object->getSprite();
             bool collision = object_sprite.getGlobalBounds().intersects(sf::FloatRect(
-            other_object_sprite.getGlobalBounds().left,
-            other_object_sprite.getGlobalBounds().top,
-            other_object_sprite.getGlobalBounds().width,
-            other_object_sprite.getGlobalBounds().height));
-          
+                other_object_sprite.getGlobalBounds().left,
+                other_object_sprite.getGlobalBounds().top,
+                other_object_sprite.getGlobalBounds().width,
+                other_object_sprite.getGlobalBounds().height));
+
             if (&object != &other_object && collision)
             {
                 object->onCollision(other_object);
@@ -132,6 +133,10 @@ void GameManager::checkCollisions()
 void GameManager::setPlayerGameObject(std::shared_ptr<GameObject> &player_game_object)
 {
     PlayerGameObject_ = player_game_object;
+    if (PlayerGameObject_)
+    {
+        PlayerController_.setControlledObject(PlayerGameObject_);
+    }
 }
 
 std::shared_ptr<GameObject> GameManager::getPlayerGameObject()

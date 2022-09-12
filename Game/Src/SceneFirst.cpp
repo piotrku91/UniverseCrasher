@@ -3,7 +3,7 @@
 #include "Box.hpp"
 #include "GameManager.hpp"
 
-void SceneFirst::tick(uint32_t delta_time)
+void SceneFirst::tick([[maybe_unused]] float delta_time)
 {
 
 }
