@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.hpp"
 #include "GameManager.hpp"
+#include "MoveComponent.hpp"
 #include "Debug.hpp"
 
 class Box : public GameObject
@@ -11,6 +12,7 @@ public:
     
     virtual void tick([[maybe_unused]]float delta_time) override
     {
+        GameObject::tick(delta_time);
 
     };
 
@@ -24,6 +26,11 @@ public:
             GameManager::getInstance().applyDamage(player_object, 1, self);
         };
     };
+
+    virtual void registerComponents() override
+    {
+        Components_.push_back(std::make_shared<MoveComponent>(this, sf::Vector2f{500, 1000}, 100));
+    }
 
     Box(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH)
         : GameObject{objectName, texture, posX, posY, sizeW, sizeH} {};

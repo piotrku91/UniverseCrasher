@@ -2,13 +2,12 @@
 
 #include <memory>
 #include <string>
+#include "Tickable.hpp"
 #include "Collidable.hpp"
 #include "Damageable.hpp"
 #include "Debug.hpp"
 #include "Defines.h"
 #include "SFML/Graphics.hpp"
-#include "Tickable.hpp"
-#include "GameManager.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 class GameObject : public Tickable, public Collidable, public Damageable, public std::enable_shared_from_this<GameObject> {
@@ -34,6 +33,7 @@ public:
     sf::Sprite& getSprite();
     std::string getObjectName();
     std::shared_ptr<GameObject> getSharedPtr();
+    sf::Vector2f getPositionAbs();
     
     void destroy();
     bool readyToDestroy();

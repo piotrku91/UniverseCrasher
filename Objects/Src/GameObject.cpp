@@ -43,6 +43,7 @@ void GameObject::setPositionAbs(sf::Vector2f position)
 
 sf::Sprite &GameObject::getSprite() { return Sprite_; }
 std::string GameObject::getObjectName() { return ObjectName_; }
+sf::Vector2f GameObject::getPositionAbs() { return Sprite_.getPosition(); }
 
 void GameObject::destroy()
 {
