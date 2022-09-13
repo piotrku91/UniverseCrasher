@@ -22,7 +22,7 @@ void GameManager::runGameLoop()
         }
         case GameState::Play:
         {
-            debug(PlayerGameObject_.use_count());
+            //debug(PlayerGameObject_.use_count());
             checkCollisions();
             removeDestroyedObjects();
 
@@ -133,7 +133,6 @@ void GameManager::checkCollisions()
             if (&object != &other_object && collision)
             {
                 object->onCollision(other_object);
-                other_object->onCollision(object);
             }
         }
     }
@@ -169,7 +168,7 @@ void GameManager::updateDeltaTime()
 
 void GameManager::removeDestroyedObjects()
 {
-    if (PlayerGameObject_->readyToDestroy())
+    if (PlayerGameObject_ && PlayerGameObject_->readyToDestroy())
     {
         PlayerGameObject_ = nullptr;
         PlayerController_.resetControlledObject();
@@ -217,4 +216,17 @@ void GameManager::clearInput()
 void GameManager::applyDamage(std::shared_ptr<GameObject>& damage_target, float damage_amount, std::shared_ptr<GameObject>& trigger_object)
 {
     damage_target->onTakeDamage(trigger_object, damage_amount);
+}
+
+void GameManager::someObjectDead(std::shared_ptr<GameObject>& dead_object)
+{
+    if (!dead_object) {return;};
+
+    if (dead_object == PlayerGameObject_)
+    {
+        dead_object->destroy();
+        debug("Player dead. Game over.");
+        CurrentGameState_ = GameState::Stop;
+    }
+    
 }

@@ -6,8 +6,4 @@ using GameObjectsList = std::vector<std::shared_ptr<class GameObject>> ;
 using GameObjectsComponentsList = std::vector<std::shared_ptr<class GameObjectComponent>> ;
 using GraphicsObjectsList = std::vector<std::shared_ptr<class GraphicsObject>> ;
 
-template <typename T>
-std::shared_ptr<T> createObject(T&& args)
-{
-    return std::make_shared<T>(args);
-}
+

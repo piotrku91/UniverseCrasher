@@ -20,11 +20,11 @@ public:
 
         if (other == player_object)
         {
-            auto self = getSharedThis();
+            auto self = getSharedPtr();
             GameManager::getInstance().applyDamage(player_object, 1, self);
         };
     };
 
-    Box(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeX, float sizeY)
-        : GameObject{objectName, texture, posX, posY, sizeX, sizeY} {};
+    Box(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH)
+        : GameObject{objectName, texture, posX, posY, sizeW, sizeH} {};
 };

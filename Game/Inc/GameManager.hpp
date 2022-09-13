@@ -1,21 +1,20 @@
 #pragma once
 
-#include <memory>
-#include "GameStates.hpp"
-#include "GameConst.hpp"
-#include "WindowDrawManager.hpp"
-#include "Defines.h"
-#include "Debug.hpp"
-#include "Controller.hpp"
-#include <map>
 #include <functional>
-
+#include <map>
+#include <memory>
+#include "Controller.hpp"
+#include "Debug.hpp"
+#include "Defines.h"
+#include "GameConst.hpp"
+#include "GameStates.hpp"
 #include "SceneFirst.hpp"
+#include "WindowDrawManager.hpp"
 
-class GameManager
-{
+class GameManager {
 private:
-    GameManager() : PlayerGameObject_(nullptr), CurrentGameState_(GameState::MainMenu), ExitApp_(false){};
+    GameManager()
+        : PlayerGameObject_(nullptr), CurrentGameState_(GameState::MainMenu), ExitApp_(false){};
     WindowDrawManager WindowDrawManager_;
     GameObjectsList GameObjects_;
     GraphicsObjectsList RawGraphicsObjects_;
@@ -32,28 +31,34 @@ private:
     sf::Clock Clock_;
 
 public:
-    static GameManager &getInstance()
-    {
+    static GameManager& getInstance() {
         static GameManager instance;
         return instance;
     };
+    /* Inits */
     void initMainWindow();
     void initTextureManager();
     void initKeyBindings();
+
+    /* Runtime control */
     void startNewGame();
     void runGameLoop();
+    
+    /* Game runtime functions */
     void checkCollisions();
     void removeDestroyedObjects();
     void handleEvents();
     void clearInput();
 
     /* Setters */
-    void setPlayerGameObject(std::shared_ptr<GameObject> &player_game_object);
+    void setPlayerGameObject(std::shared_ptr<GameObject>& player_game_object);
 
     /* Getters */
     std::shared_ptr<GameObject> getPlayerGameObject();
     float getDeltaTime();
     void updateDeltaTime();
 
+    /* Game events functions */
     void applyDamage(std::shared_ptr<GameObject>& damage_target, float damage_amount, std::shared_ptr<GameObject>& trigger_object);
+    void someObjectDead(std::shared_ptr<GameObject>& dead_object);
 };

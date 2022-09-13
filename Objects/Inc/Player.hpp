@@ -9,6 +9,7 @@ public:
     virtual void begin() override;
     virtual void tick([[maybe_unused]] float delta_time) override;
     virtual void onCollision(std::shared_ptr<class GameObject> &other) override;
+    virtual void registerComponents();
 
-    Player(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeX, float sizeY);
+    Player(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH);
 };
