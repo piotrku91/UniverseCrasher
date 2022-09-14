@@ -5,6 +5,10 @@
 #include <algorithm>
 #include <numeric>
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                  RUNTIME CONTROL
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void GameManager::runGameLoop()
 {
     while (!ExitApp_)
@@ -16,13 +20,22 @@ void GameManager::runGameLoop()
         {
         case GameState::MainMenu:
         {
-            startNewGame();
+            CurrentGameState_ = GameState::StartGame;
 
             break;
         }
-        case GameState::Play:
+
+        case GameState::StartGame:
         {
-            //debug(PlayerGameObject_.use_count());
+            startNewGame();
+            CurrentGameState_ = GameState::PlayLoop;
+
+            break;
+        }
+
+        case GameState::PlayLoop:
+        {
+            // debug(PlayerGameObject_.use_count());
             checkCollisions();
             removeDestroyedObjects();
 
@@ -42,12 +55,14 @@ void GameManager::runGameLoop()
 
             break;
         }
+
         case GameState::Pause:
         {
 
             break;
         }
-        case GameState::Stop:
+
+        case GameState::GameOver:
         {
 
             break;
@@ -62,6 +77,19 @@ void GameManager::runGameLoop()
     }
     WindowDrawManager_.destroy();
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void GameManager::startNewGame()
+{
+    PlayerGameObject_ = nullptr;
+    GameObjects_.clear();
+
+    CurrentGameState_ = GameState::PlayLoop;
+
+    CurrentScene_ = std::make_shared<SceneFirst>(GameObjects_);
+    CurrentScene_->begin();
+
+    //  RawGraphicsObjects_.push_back(createObject<SimpleRectangleObject>({"HUD Bar", {0, 0}, {MAX_X, 30}, Color{0, 100, 100, 255}}));
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                  INITS
@@ -73,7 +101,7 @@ void GameManager::initMainWindow()
 
     Clock_.restart();
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::initKeyBindings()
 {
     InputBindings_.insert({sf::Keyboard::Left, [this]()
@@ -94,26 +122,13 @@ void GameManager::initKeyBindings()
                             InputDy_++;
                             InputDy_ = std::clamp(InputDy_, 0, 1); }});
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::initTextureManager()
 {
 }
 
-void GameManager::startNewGame()
-{
-    PlayerGameObject_ = nullptr;
-    GameObjects_.clear();
-
-    CurrentGameState_ = GameState::Play;
-
-    CurrentScene_ = std::make_shared<SceneFirst>(GameObjects_);
-    CurrentScene_->begin();
-
-    //  RawGraphicsObjects_.push_back(createObject<SimpleRectangleObject>({"HUD Bar", {0, 0}, {MAX_X, 30}, Color{0, 100, 100, 255}}));
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                  RUNTIME FUNCTIONS
+//                                                  GAME RUNTIME FUNCTIONS
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameManager::checkCollisions()
@@ -137,7 +152,7 @@ void GameManager::checkCollisions()
         }
     }
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::setPlayerGameObject(std::shared_ptr<GameObject> &player_game_object)
 {
     PlayerGameObject_ = player_game_object;
@@ -146,7 +161,7 @@ void GameManager::setPlayerGameObject(std::shared_ptr<GameObject> &player_game_o
         PlayerController_.setControlledObject(PlayerGameObject_);
     }
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 std::shared_ptr<GameObject> GameManager::getPlayerGameObject()
 {
     if (PlayerGameObject_)
@@ -155,24 +170,23 @@ std::shared_ptr<GameObject> GameManager::getPlayerGameObject()
     };
     return nullptr;
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 float GameManager::getDeltaTime()
 {
     return CurrentDeltaTime_;
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::updateDeltaTime()
 {
     CurrentDeltaTime_ = Clock_.restart().asSeconds();
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::removeDestroyedObjects()
 {
     if (PlayerGameObject_ && PlayerGameObject_->readyToDestroy())
     {
         PlayerGameObject_ = nullptr;
         PlayerController_.resetControlledObject();
-        
     };
 
     std::erase_if(GameObjects_,
@@ -181,7 +195,7 @@ void GameManager::removeDestroyedObjects()
                       return game_object->readyToDestroy();
                   });
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::handleEvents()
 {
     sf::Event event;
@@ -202,7 +216,7 @@ void GameManager::handleEvents()
         }
     };
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::clearInput()
 {
     InputDx_ = 0;
@@ -213,14 +227,17 @@ void GameManager::clearInput()
 //                                                  GAME EVENTS HANDLERS
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameManager::applyDamage(std::shared_ptr<GameObject>& damage_target, float damage_amount, std::shared_ptr<GameObject>& trigger_object)
+void GameManager::applyDamage(std::shared_ptr<GameObject> &damage_target, float damage_amount, std::shared_ptr<GameObject> &trigger_object)
 {
     damage_target->onTakeDamage(trigger_object, damage_amount);
 }
-
-void GameManager::someObjectDead(std::shared_ptr<GameObject>& dead_object)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void GameManager::someObjectDead(std::shared_ptr<GameObject> &dead_object)
 {
-    if (!dead_object) {return;};
+    if (!dead_object)
+    {
+        return;
+    };
 
     if (dead_object == PlayerGameObject_)
     {
@@ -228,5 +245,9 @@ void GameManager::someObjectDead(std::shared_ptr<GameObject>& dead_object)
         debug("Player dead. Game over.");
         CurrentGameState_ = GameState::Stop;
     }
-    
+    else
+    {
+        dead_object->destroy();
+        debug(dead_object.getObjectName() + " dead.");
+    }
 }

@@ -2,15 +2,16 @@
 #include "HealthComponent.hpp"
 
 void Player::begin() {
-    
+    GameObject::begin();
 }
 
 void Player::tick([[maybe_unused]] float delta_time) {
-
+    GameObject::tick();
 }
 
 void Player::onCollision(std::shared_ptr<GameObject> &other)
 {
+    GameObject::onCollision(other);
     debug("Collision " + getObjectName() + " with " + other->getObjectName());
 }
 

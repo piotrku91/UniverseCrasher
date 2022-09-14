@@ -5,9 +5,12 @@
 #include "Player.hpp"
 
 void SceneFirst::tick([[maybe_unused]] float delta_time) {
+    Scene::tick(delta_time);
 }
 
 void SceneFirst::begin() {
+    Scene::begin();
+
     sf::Texture temp;
     createGameObject<Player>(GameObjectsList_, "Player", temp, 150, 150, 50, 50, true);
     createGameObject<Box>(GameObjectsList_, "Box", temp, 500, 150, 50, 50);

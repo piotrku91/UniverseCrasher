@@ -8,7 +8,10 @@ class Box : public GameObject
 {
 
 public:
-    virtual void begin() override{};
+    virtual void begin() override{
+        GameObject::begin();
+
+    };
     
     virtual void tick([[maybe_unused]]float delta_time) override
     {
@@ -18,6 +21,7 @@ public:
 
     virtual void onCollision([[maybe_unused]]std::shared_ptr<GameObject> &other)
     { 
+        GameObject::onCollision(other);
         auto player_object = GameManager::getInstance().getPlayerGameObject();
 
         if (other == player_object)
