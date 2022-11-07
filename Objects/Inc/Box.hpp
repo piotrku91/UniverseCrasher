@@ -2,6 +2,7 @@
 #include "GameObject.hpp"
 #include "GameManager.hpp"
 #include "MoveComponent.hpp"
+#include "LifeTimeComponent.hpp"
 #include "Debug.hpp"
 
 class Box : public GameObject
@@ -33,7 +34,8 @@ public:
 
     virtual void registerComponents() override
     {
-        Components_.push_back(std::make_shared<MoveComponent>(this, sf::Vector2f{500, 1000}, 100));
+        Components_.push_back(std::make_shared<MoveComponent>(this, sf::Vector2f{500, 100}, 100));
+        Components_.push_back(std::make_shared<LifeTimeComponent>(this, 5));
     }
 
     Box(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH)

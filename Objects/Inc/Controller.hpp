@@ -2,7 +2,7 @@
 #include <numeric>
 #include <memory>
 
-constexpr int MaxSpeedMultiplier_ = 100;
+constexpr int MaxSpeedMultiplier_ = 500;
 
 class Controller
 {

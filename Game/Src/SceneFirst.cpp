@@ -12,6 +12,6 @@ void SceneFirst::begin() {
     Scene::begin();
 
     sf::Texture temp;
-    createGameObject<Player>(GameObjectsList_, "Player", temp, 150, 150, 50, 50, true);
-    createGameObject<Box>(GameObjectsList_, "Box", temp, 500, 150, 50, 50);
+    createGameObject<Player>(GameObjectsList_, "Player", temp, MAX_X / 2, MAX_Y - 200, 50, 50, true);
+    createGameObject<Box>(GameObjectsList_, "Box", temp, 500, 500, 25, 25);
 }

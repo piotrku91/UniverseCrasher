@@ -80,7 +80,9 @@ void GameManager::runGameLoop()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::startNewGame()
 {
+    GlobalClock_.restart();
     PlayerGameObject_ = nullptr;
+    PlayerController_.setSpeed(500);
     GameObjects_.clear();
 
     CurrentGameState_ = GameState::PlayLoop;
@@ -99,7 +101,7 @@ void GameManager::initMainWindow()
 {
     WindowDrawManager_.create("New game", MAX_X, MAX_Y);
 
-    Clock_.restart();
+    DeltaClock_.restart();
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::initKeyBindings()
@@ -113,14 +115,14 @@ void GameManager::initKeyBindings()
                            {
                           InputDx_++;
                             InputDx_ = std::clamp(InputDx_, 0, 1); }});
-    InputBindings_.insert({sf::Keyboard::Up, [this]()
+   /* InputBindings_.insert({sf::Keyboard::Up, [this]()
                            { 
                             InputDy_--;
                             InputDy_ = std::clamp(InputDy_, -1, 0); }});
     InputBindings_.insert({sf::Keyboard::Down, [this]()
                            { 
                             InputDy_++;
-                            InputDy_ = std::clamp(InputDy_, 0, 1); }});
+                            InputDy_ = std::clamp(InputDy_, 0, 1); }}); */
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::initTextureManager()
@@ -171,6 +173,11 @@ std::shared_ptr<GameObject> GameManager::getPlayerGameObject()
     return nullptr;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+float GameManager::getTimeFromStart()
+{
+    return GlobalClock_.getElapsedTime().asSeconds();
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 float GameManager::getDeltaTime()
 {
     return CurrentDeltaTime_;
@@ -178,7 +185,7 @@ float GameManager::getDeltaTime()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::updateDeltaTime()
 {
-    CurrentDeltaTime_ = Clock_.restart().asSeconds();
+    CurrentDeltaTime_ = DeltaClock_.restart().asSeconds();
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::removeDestroyedObjects()
@@ -243,11 +250,11 @@ void GameManager::someObjectDead(std::shared_ptr<GameObject> &dead_object)
     {
         dead_object->destroy();
         debug("Player dead. Game over.");
-        CurrentGameState_ = GameState::Stop;
+        CurrentGameState_ = GameState::GameOver;
     }
     else
     {
         dead_object->destroy();
-        debug(dead_object.getObjectName() + " dead.");
+        debug(dead_object->getObjectName() + " dead.");
     }
 }

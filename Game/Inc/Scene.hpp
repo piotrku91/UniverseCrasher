@@ -10,5 +10,7 @@ class Scene : public Tickable
 
     public:
     Scene(GameObjectsList& game_objects_list):GameObjectsList_(game_objects_list){};
+    void begin() override {};
+    void tick([[maybe_unused]] float delta_time) override {};
 
 };

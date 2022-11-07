@@ -28,7 +28,8 @@ private:
     float CurrentDeltaTime_;
     int InputDx_;
     int InputDy_;
-    sf::Clock Clock_;
+    sf::Clock DeltaClock_;
+    sf::Clock GlobalClock_;
 
 public:
     static GameManager& getInstance() {
@@ -56,6 +57,7 @@ public:
     /* Getters */
     std::shared_ptr<GameObject> getPlayerGameObject();
     float getDeltaTime();
+    float getTimeFromStart();
     void updateDeltaTime();
 
     /* Game events functions */

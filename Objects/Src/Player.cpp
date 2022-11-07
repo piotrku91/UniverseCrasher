@@ -6,7 +6,7 @@ void Player::begin() {
 }
 
 void Player::tick([[maybe_unused]] float delta_time) {
-    GameObject::tick();
+    GameObject::tick(delta_time);
 }
 
 void Player::onCollision(std::shared_ptr<GameObject> &other)
