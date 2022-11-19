@@ -9,7 +9,7 @@ void LifeTimeComponent::begin() {
     BornTime_ = GameManager::getInstance().getTimeFromStart();
 }
 
-void LifeTimeComponent::tick(float delta_time) {
+void LifeTimeComponent::tick([[maybe_unused]] float delta_time) {
     if (GameManager::getInstance().getTimeFromStart() - BornTime_ > MaxLifeTime_)
     {
         auto owner_object = getOwner()->getSharedPtr();

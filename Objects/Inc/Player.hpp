@@ -11,5 +11,7 @@ public:
     virtual void onCollision(std::shared_ptr<class GameObject> &other) override;
     virtual void registerComponents();
 
+    void Fire();
+
     Player(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH);
 };

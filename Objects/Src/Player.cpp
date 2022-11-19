@@ -1,5 +1,6 @@
 #include "Player.hpp"
 #include "HealthComponent.hpp"
+#include "WeaponComponent.hpp"
 
 void Player::begin() {
     GameObject::begin();
@@ -23,4 +24,11 @@ Player::Player(const std::string &objectName, const sf::Texture &texture, float 
 void Player::registerComponents()
 {
 Components_.push_back(std::make_shared<HealthComponent>(this, 100, 100));
+Components_.push_back(std::make_shared<WeaponComponent>(this, WeaponType::Arrow, 100));
+}
+
+void Player::Fire()
+{
+    dynamic_cast<WeaponComponent*>(Components_[1].get())->triggerBullet();
+
 }

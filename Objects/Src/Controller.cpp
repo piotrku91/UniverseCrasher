@@ -1,6 +1,8 @@
 #include "Controller.hpp"
 #include <functional>
 #include "GameObject.hpp"
+#include "Scene.hpp"
+#include "Player.hpp"
 
 void Controller::moveWithSpeed(float dX, float dY) {
     if (ControlledObject_ && Active_ && (dX != 0 || dY != 0)) {
@@ -23,6 +25,12 @@ void Controller::setControlledObject(std::shared_ptr<class GameObject>& object) 
     };
     ControlledObject_ = object;
     Active_ = true;
+}
+
+void Controller::handleFireEvent(float d) {
+    if (ControlledObject_ && Active_ && (d != 0)) {
+        dynamic_cast<Player*>(ControlledObject_.get())->Fire();
+    }
 }
 
 void Controller::resetControlledObject() {

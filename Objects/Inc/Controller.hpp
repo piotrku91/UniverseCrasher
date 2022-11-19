@@ -17,6 +17,7 @@ public:
     virtual void moveWithSpeed(float dX, float dY);
     void setSpeed(int speed);
     void setActive(bool state);
+    void handleFireEvent(float d);
     void setControlledObject(std::shared_ptr<class GameObject>& object);
     void resetControlledObject();
 };

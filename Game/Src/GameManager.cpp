@@ -39,6 +39,7 @@ void GameManager::runGameLoop()
             checkCollisions();
             removeDestroyedObjects();
 
+            PlayerController_.handleFireEvent(static_cast<float>(InputFire_));
             PlayerController_.moveWithSpeed(static_cast<float>(InputDx_), static_cast<float>(InputDy_));
 
             CurrentScene_->tick(getDeltaTime());
@@ -115,14 +116,19 @@ void GameManager::initKeyBindings()
                            {
                           InputDx_++;
                             InputDx_ = std::clamp(InputDx_, 0, 1); }});
-   /* InputBindings_.insert({sf::Keyboard::Up, [this]()
-                           { 
-                            InputDy_--;
-                            InputDy_ = std::clamp(InputDy_, -1, 0); }});
-    InputBindings_.insert({sf::Keyboard::Down, [this]()
-                           { 
-                            InputDy_++;
-                            InputDy_ = std::clamp(InputDy_, 0, 1); }}); */
+
+    InputBindings_.insert({sf::Keyboard::Space, [this]()
+                           {
+                          InputFire_ = 1;}}
+                            );
+    /* InputBindings_.insert({sf::Keyboard::, [this]()
+                            {
+                             InputDy_--;
+                             InputDy_ = std::clamp(InputDy_, -1, 0); }});
+     InputBindings_.insert({sf::Keyboard::Down, [this]()
+                            {
+                             InputDy_++;
+                             InputDy_ = std::clamp(InputDy_, 0, 1); }}); */
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::initTextureManager()
@@ -228,6 +234,7 @@ void GameManager::clearInput()
 {
     InputDx_ = 0;
     InputDy_ = 0;
+    InputFire_ = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -258,3 +265,4 @@ void GameManager::someObjectDead(std::shared_ptr<GameObject> &dead_object)
         debug(dead_object->getObjectName() + " dead.");
     }
 }
+

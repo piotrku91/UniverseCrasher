@@ -11,7 +11,8 @@
 #include "SceneFirst.hpp"
 #include "WindowDrawManager.hpp"
 
-class GameManager {
+class GameManager
+{
 private:
     GameManager()
         : PlayerGameObject_(nullptr), CurrentGameState_(GameState::MainMenu), ExitApp_(false){};
@@ -28,11 +29,13 @@ private:
     float CurrentDeltaTime_;
     int InputDx_;
     int InputDy_;
+    int InputFire_;
     sf::Clock DeltaClock_;
     sf::Clock GlobalClock_;
 
 public:
-    static GameManager& getInstance() {
+    static GameManager &getInstance()
+    {
         static GameManager instance;
         return instance;
     };
@@ -44,7 +47,7 @@ public:
     /* Runtime control */
     void startNewGame();
     void runGameLoop();
-    
+
     /* Game runtime functions */
     void checkCollisions();
     void removeDestroyedObjects();
@@ -52,7 +55,7 @@ public:
     void clearInput();
 
     /* Setters */
-    void setPlayerGameObject(std::shared_ptr<GameObject>& player_game_object);
+    void setPlayerGameObject(std::shared_ptr<GameObject> &player_game_object);
 
     /* Getters */
     std::shared_ptr<GameObject> getPlayerGameObject();
@@ -61,6 +64,13 @@ public:
     void updateDeltaTime();
 
     /* Game events functions */
-    void applyDamage(std::shared_ptr<GameObject>& damage_target, float damage_amount, std::shared_ptr<GameObject>& trigger_object);
-    void someObjectDead(std::shared_ptr<GameObject>& dead_object);
+    void applyDamage(std::shared_ptr<GameObject> &damage_target, float damage_amount, std::shared_ptr<GameObject> &trigger_object);
+    void someObjectDead(std::shared_ptr<GameObject> &dead_object);
+
+    template <typename T>
+    void spawnObjectAt([[maybe_unused]]T &object, sf::Vector2f position)
+    {
+        sf::Texture temp;
+       // createGameObject<Box>(GameObjects_, "New", temp, position.x, position.y, 25, 25);
+    }
 };
