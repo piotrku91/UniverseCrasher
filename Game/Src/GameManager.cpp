@@ -179,7 +179,7 @@ std::shared_ptr<GameObject> GameManager::getPlayerGameObject()
     return nullptr;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-float GameManager::getTimeFromStart()
+float GameManager::getTimeFromStartS()
 {
     return GlobalClock_.getElapsedTime().asSeconds();
 }

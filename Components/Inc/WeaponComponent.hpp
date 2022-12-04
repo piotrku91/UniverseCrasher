@@ -7,6 +7,8 @@ class WeaponComponent : public GameObjectComponent
     private:
     WeaponType WeaponType_;
     int Ammo_;
+    float LastSpawnTime_;
+    float SpawnDelay_;
 
 public:
 
@@ -15,5 +17,5 @@ public:
 
     void triggerBullet();
 
-    WeaponComponent(class GameObject *owner, WeaponType weapon_type, int ammo);
+    WeaponComponent(class GameObject *owner, WeaponType weapon_type, int ammo, float spawn_delay);
 };

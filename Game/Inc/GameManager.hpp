@@ -10,6 +10,7 @@
 #include "GameStates.hpp"
 #include "SceneFirst.hpp"
 #include "WindowDrawManager.hpp"
+#include <type_traits>
 
 class GameManager
 {
@@ -60,7 +61,7 @@ public:
     /* Getters */
     std::shared_ptr<GameObject> getPlayerGameObject();
     float getDeltaTime();
-    float getTimeFromStart();
+    float getTimeFromStartS();
     void updateDeltaTime();
 
     /* Game events functions */
@@ -68,9 +69,29 @@ public:
     void someObjectDead(std::shared_ptr<GameObject> &dead_object);
 
     template <typename T>
-    void spawnObjectAt([[maybe_unused]]T &object, sf::Vector2f position)
+    void spawnObjectAt([[maybe_unused]] T object, sf::Vector2f position, float sizeW, float sizeH)
     {
         sf::Texture temp;
-       // createGameObject<Box>(GameObjects_, "New", temp, position.x, position.y, 25, 25);
+
+        createGameObject<std::remove_pointer_t<T>>(GameObjects_, "New", temp, position.x, position.y, sizeW, sizeH);
+    }
+
+    template <typename T>
+    std::shared_ptr<T> createObject(T &&args)
+    {
+        return std::make_shared<T>(args);
+    }
+
+    template <typename T>
+    void createGameObject(GameObjectsList &game_objects_container, const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH, bool is_player = false)
+    {
+        std::shared_ptr<T> new_object = createObject<T>({objectName, texture, posX, posY, sizeW, sizeH});
+        game_objects_container.push_back(new_object);
+        new_object->registerComponents();
+        new_object->begin();
+        if (is_player && !GameManager::getInstance().getPlayerGameObject())
+        {
+            GameManager::getInstance().setPlayerGameObject(game_objects_container.back());
+        };
     }
 };

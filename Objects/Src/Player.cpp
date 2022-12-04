@@ -24,7 +24,7 @@ Player::Player(const std::string &objectName, const sf::Texture &texture, float 
 void Player::registerComponents()
 {
 Components_.push_back(std::make_shared<HealthComponent>(this, 100, 100));
-Components_.push_back(std::make_shared<WeaponComponent>(this, WeaponType::Arrow, 100));
+Components_.push_back(std::make_shared<WeaponComponent>(this, WeaponType::Arrow, 100, 0.3));
 }
 
 void Player::Fire()
