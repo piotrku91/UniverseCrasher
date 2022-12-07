@@ -36,6 +36,7 @@ void GameManager::runGameLoop()
         case GameState::PlayLoop:
         {
             // debug(PlayerGameObject_.use_count());
+            PlayerController_.setModifierState(ControllerModifierState::None);
             checkCollisions();
             removeDestroyedObjects();
 
@@ -266,3 +267,7 @@ void GameManager::someObjectDead(std::shared_ptr<GameObject> &dead_object)
     }
 }
 
+Controller& GameManager::getPlayerController()
+{
+    return PlayerController_;
+}

@@ -3,9 +3,10 @@
 #include "GameManager.hpp"
 #include "MoveComponent.hpp"
 #include "LifeTimeComponent.hpp"
+#include "HealthComponent.hpp"
 #include "Debug.hpp"
 
-class Arrow : public GameObject
+class Wall : public GameObject
 {
 
 public:
@@ -25,22 +26,28 @@ public:
     { 
         GameObject::onCollision(other);
         auto player_object = GameManager::getInstance().getPlayerGameObject();
-        auto self = getSharedPtr();
 
-        if (other != player_object && dynamic_cast<Arrow*>(other.get()) == nullptr)
+        if (other == player_object)
         {
-            GameManager::getInstance().applyDamage(other, 10, self);
-            destroy();
+            auto self = getSharedPtr();
+
+            if (player_object->getPositionAbs().x <= getPositionAbs().x)
+            {
+            GameManager::getInstance().getPlayerController().setModifierState(ControllerModifierState::RightLock);
+            }
+            else
+            {
+            GameManager::getInstance().getPlayerController().setModifierState(ControllerModifierState::LeftLock);   
+            }
         };
     };
 
     virtual void registerComponents() override
     {
-        Components_.push_back(std::make_shared<MoveComponent>(this, sf::Vector2f{500, 100}, 1500));
-        Components_.push_back(std::make_shared<LifeTimeComponent>(this, 4));
+       
     }
 
-    Arrow(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH)
+    Wall(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH)
         : GameObject{objectName, texture, posX, posY, sizeW, sizeH} {};
 
     

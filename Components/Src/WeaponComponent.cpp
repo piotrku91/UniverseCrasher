@@ -20,7 +20,7 @@ void WeaponComponent::setAmmo(int ammo_count)
 void WeaponComponent::triggerBullet()
 {
     float now = GameManager::getInstance().getTimeFromStartS();
-    if (now - LastSpawnTime_ < SpawnDelay_) {return;};
+    if (now - LastSpawnTime_ < SpawnDelay_ || Ammo_ == 0) {return;};
 
     switch (WeaponType_)
     {
@@ -30,6 +30,7 @@ void WeaponComponent::triggerBullet()
         sf::Vector2f player_position = GameManager::getInstance().getPlayerGameObject()->getPositionAbs();
         GameManager::getInstance().spawnObjectAt(new_arrow, sf::Vector2f{player_position.x, player_position.y - 30}, 5, 5);
         LastSpawnTime_ = now;
+        Ammo_--;
         break;
     }
     default:

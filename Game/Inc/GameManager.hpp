@@ -60,6 +60,7 @@ public:
 
     /* Getters */
     std::shared_ptr<GameObject> getPlayerGameObject();
+    Controller& getPlayerController();
     float getDeltaTime();
     float getTimeFromStartS();
     void updateDeltaTime();
@@ -85,6 +86,7 @@ public:
     template <typename T>
     void createGameObject(GameObjectsList &game_objects_container, const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH, bool is_player = false)
     {
+        
         std::shared_ptr<T> new_object = createObject<T>({objectName, texture, posX, posY, sizeW, sizeH});
         game_objects_container.push_back(new_object);
         new_object->registerComponents();
