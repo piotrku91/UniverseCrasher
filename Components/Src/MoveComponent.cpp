@@ -8,6 +8,7 @@
 void MoveComponent::tick(float delta_time) 
 {
     sf::Vector2f current_location = getOwner()->getPositionAbs();
+    
     if (StartPosition_ != EndPosition_)
     {
         sf::Vector2f velocity{0, -5};

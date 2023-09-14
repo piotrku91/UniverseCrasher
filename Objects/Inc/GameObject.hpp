@@ -2,6 +2,8 @@
 
 #include <memory>
 #include <string>
+#include <functional>
+
 #include "Tickable.hpp"
 #include "Collidable.hpp"
 #include "Damageable.hpp"

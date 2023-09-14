@@ -26,9 +26,8 @@ void WeaponComponent::triggerBullet()
     {
     case WeaponType::Arrow:
     {
-        Arrow* new_arrow;
         sf::Vector2f player_position = GameManager::getInstance().getPlayerGameObject()->getPositionAbs();
-        GameManager::getInstance().spawnObjectAt(new_arrow, sf::Vector2f{player_position.x, player_position.y - 30}, 5, 5);
+        GameManager::getInstance().spawnObjectAt<Arrow>(sf::Vector2f{player_position.x, player_position.y - 30}, 5.f, 5.f);
         LastSpawnTime_ = now;
         Ammo_--;
         break;

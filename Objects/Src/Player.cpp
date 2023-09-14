@@ -19,6 +19,7 @@ void Player::onCollision(std::shared_ptr<GameObject> &other)
 Player::Player(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH)
     : GameObject{objectName, texture, posX, posY, sizeW, sizeH}
 {
+    debug("player spawned");
 }
 
 void Player::registerComponents()
