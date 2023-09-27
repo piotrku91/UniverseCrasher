@@ -5,16 +5,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(UniverseCrasher)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    #set(FLAGS /WX)
+    set(FLAGS /MP4)
 else()
     set(FLAGS -Wall -Wextra -Wconversion -pedantic -pedantic-errors -g)
 endif()
-
+find_package(SFML 2.5.1 COMPONENTS system window graphics network audio REQUIRED)
 add_compile_options(${FLAGS})
 
 set(SFML_DIR "libs/SFML-2.5.1/lib/cmake/SFML")
 set(SFML_TARGETS sfml-system sfml-window sfml-graphics sfml-network sfml-audio)
-find_package(SFML 2.5.1 COMPONENTS system window graphics network audio REQUIRED)
+
 
 include_directories(${PROJECT_NAME} PUBLIC "libs/SFML-2.5.1/include/")
 include_directories(${PROJECT_NAME} PUBLIC Utilities)
@@ -23,6 +23,8 @@ add_subdirectory(Drawing)
 add_subdirectory(Objects)
 add_subdirectory(Game)
 
+
+                         
 
 #enable_testing()
 

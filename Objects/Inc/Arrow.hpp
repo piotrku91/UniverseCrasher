@@ -36,8 +36,8 @@ public:
 
     virtual void registerComponents() override
     {
-        Components_.push_back(std::make_shared<MoveComponent>(this, sf::Vector2f{500, 100}, 1500));
-        Components_.push_back(std::make_shared<LifeTimeComponent>(this, 4));
+        Components_.push_back(std::make_shared<MoveComponent>(this, sf::Vector2f{500, 100}, 1500.f));
+        Components_.push_back(std::make_shared<LifeTimeComponent>(this, 4.f));
     }
 
     Arrow(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH)

@@ -36,9 +36,9 @@ public:
 
     virtual void registerComponents() override
     {
-        Components_.push_back(std::make_shared<MoveComponent>(this, sf::Vector2f{500, 100}, 100));
-        Components_.push_back(std::make_shared<LifeTimeComponent>(this, 30));
-        Components_.push_back(std::make_shared<HealthComponent>(this, 50, 50));
+        Components_.push_back(std::make_shared<MoveComponent>(this, sf::Vector2f{500, 100}, 100.f));
+        Components_.push_back(std::make_shared<LifeTimeComponent>(this, 30.f));
+        Components_.push_back(std::make_shared<HealthComponent>(this, 50.f, 50.f));
     }
 
     Balloon(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH)
