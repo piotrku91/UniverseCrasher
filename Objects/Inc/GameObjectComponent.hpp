@@ -25,5 +25,5 @@ public:
     virtual void onCollision([[maybe_unused]] std::shared_ptr<GameObject> &other) override {};
     virtual void onTakeDamage([[maybe_unused]] std::shared_ptr<GameObject> &other, [[maybe_unused]] float damage_amount) override {};
 
-    GameObjectComponent(class GameObject* owner):Owner_(owner){};
+    explicit GameObjectComponent(class GameObject* owner):Owner_(owner), DestroyFlag_(false){};
 };

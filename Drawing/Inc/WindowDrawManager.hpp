@@ -13,7 +13,6 @@ class WindowDrawManager final
 {
 private:
     bool isDestroyed;
-    bool Created_;
     sf::RenderWindow Window;
 
 public:
@@ -27,7 +26,7 @@ public:
         for (const auto &objectToRender : allObjects)
         {
             Window.draw(objectToRender->getSprite());
-        };
+        }
     }
 
     void create(const std::string &Caption, int sizeW, int sizeH);

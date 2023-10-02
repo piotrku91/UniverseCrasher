@@ -9,6 +9,7 @@
 #include "SimpleRectangleObject.hpp"
 #include "Color.hpp" */
 #include "GameManager.hpp"
+#include <thread>
 
 /* constexpr auto PLAYERS_AREA_W=500; 
 constexpr auto PLAYERS_AREA_H=150; 

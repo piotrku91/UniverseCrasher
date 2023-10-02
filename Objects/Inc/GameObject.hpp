@@ -11,11 +11,10 @@
 #include "Defines.h"
 #include "SFML/Graphics.hpp"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+/***/
 class GameObject : public Tickable, public Collidable, public Damageable, public std::enable_shared_from_this<GameObject> {
 private:
     std::string ObjectName_;
-
     bool DestroyFlag_;
 
 protected:
@@ -38,11 +37,12 @@ public:
     sf::Vector2f getPositionAbs();
     
     void destroy();
-    bool readyToDestroy();
+    bool readyToDestroy() const;
 
-    GameObject(const std::string& objectName, const sf::Texture& texture, float posX, float posY, [[maybe_unused]] float sizeW, [[maybe_unused]] float sizeH);
+    GameObject(std::string  objectName, const sf::Texture& texture, float posX, float posY, [[maybe_unused]] float sizeW, [[maybe_unused]] float sizeH);
+
     virtual void registerComponents();
 
 private:
-    void callInAllComponents(std::function<void(std::shared_ptr<class GameObjectComponent>)> callback);
+    void callInAllComponents(const std::function<void(std::shared_ptr<class GameObjectComponent>)>& callback);
 };

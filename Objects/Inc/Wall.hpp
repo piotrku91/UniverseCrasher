@@ -39,7 +39,7 @@ public:
             {
             GameManager::getInstance().getPlayerController().setModifierState(ControllerModifierState::LeftLock);   
             }
-        };
+        }
     };
 
     virtual void registerComponents() override

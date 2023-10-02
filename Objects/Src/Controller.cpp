@@ -5,8 +5,8 @@
 #include "Player.hpp"
 
 void Controller::moveWithSpeed(float dX, float dY) {
-    if (ModifierState_ == ControllerModifierState::RightLock && dX > 0) {dX = 0;};
-    if (ModifierState_ == ControllerModifierState::LeftLock && dX < 0) {dX = 0;};
+    if (ModifierState_ == ControllerModifierState::RightLock && dX > 0) {dX = 0;}
+    if (ModifierState_ == ControllerModifierState::LeftLock && dX < 0) {dX = 0;}
 
     if (ControlledObject_ && Active_ && (dX != 0 || dY != 0)) {
         sf::Vector2f axis{dX, dY};
@@ -25,7 +25,7 @@ void Controller::setActive(bool state) {
 void Controller::setControlledObject(std::shared_ptr<class GameObject>& object) {
     if (!object) {
         return;
-    };
+    }
     ControlledObject_ = object;
     Active_ = true;
 }

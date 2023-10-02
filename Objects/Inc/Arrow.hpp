@@ -31,7 +31,7 @@ public:
         {
             GameManager::getInstance().applyDamage(other, 10, self);
             destroy();
-        };
+        }
     };
 
     virtual void registerComponents() override

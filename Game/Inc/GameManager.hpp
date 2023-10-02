@@ -61,7 +61,7 @@ public:
     /* Getters */
     std::shared_ptr<GameObject> getPlayerGameObject();
     Controller& getPlayerController();
-    float getDeltaTime();
+    float getDeltaTime() const;
     float getTimeFromStartS();
     void updateDeltaTime();
 

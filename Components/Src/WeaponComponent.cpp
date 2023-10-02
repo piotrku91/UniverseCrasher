@@ -20,7 +20,7 @@ void WeaponComponent::setAmmo(int ammo_count)
 void WeaponComponent::triggerBullet()
 {
     float now = GameManager::getInstance().getTimeFromStartS();
-    if (now - LastSpawnTime_ < SpawnDelay_ || Ammo_ == 0) {return;};
+    if (now - LastSpawnTime_ < SpawnDelay_ || Ammo_ == 0) {return;}
 
     switch (WeaponType_)
     {

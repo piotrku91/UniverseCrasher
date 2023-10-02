@@ -176,7 +176,7 @@ std::shared_ptr<GameObject> GameManager::getPlayerGameObject()
     if (PlayerGameObject_)
     {
         return PlayerGameObject_;
-    };
+    }
     return nullptr;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,7 +185,7 @@ float GameManager::getTimeFromStartS()
     return GlobalClock_.getElapsedTime().asSeconds();
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-float GameManager::getDeltaTime()
+float GameManager::getDeltaTime() const
 {
     return CurrentDeltaTime_;
 }
@@ -201,7 +201,7 @@ void GameManager::removeDestroyedObjects()
     {
         PlayerGameObject_ = nullptr;
         PlayerController_.resetControlledObject();
-    };
+    }
 
     std::erase_if(GameObjects_,
                   [this](auto game_object)
@@ -212,14 +212,14 @@ void GameManager::removeDestroyedObjects()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::handleEvents()
 {
-    sf::Event event;
+    sf::Event event{};
     while (WindowDrawManager_.getWindow().pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
         {
             WindowDrawManager_.destroy();
-        };
-    };
+        }
+    }
 
     for (auto &key : InputBindings_)
     {
@@ -228,7 +228,7 @@ void GameManager::handleEvents()
         {
             key.second();
         }
-    };
+    }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::clearInput()
@@ -252,7 +252,7 @@ void GameManager::someObjectDead(std::shared_ptr<GameObject> &dead_object)
     if (!dead_object)
     {
         return;
-    };
+    }
 
     if (dead_object == PlayerGameObject_)
     {

@@ -2,7 +2,7 @@
 
 
 WindowDrawManager::WindowDrawManager()
-    : isDestroyed(false), Created_(false)
+    : isDestroyed(false)
 {
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -11,7 +11,7 @@ WindowDrawManager::~WindowDrawManager()
     if (!isDestroyed)
     {
         destroy();
-    };
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,6 +22,7 @@ void WindowDrawManager::create(const std::string &Caption, int sizeW, int sizeH)
     Window.setKeyRepeatEnabled(true);
     Window.setFramerateLimit(60);
     Window.setPosition(sf::Vector2i(300, 30));
+    isDestroyed = false;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 void WindowDrawManager::destroy()
