@@ -40,7 +40,7 @@ public:
         Components_.push_back(std::make_shared<LifeTimeComponent>(this, 4.f));
     }
 
-    Arrow(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH)
+    Arrow(const std::string &objectName, const sf::Texture& texture, float posX, float posY, float sizeW, float sizeH)
         : GameObject{objectName, texture, posX, posY, sizeW, sizeH} {};
 
     

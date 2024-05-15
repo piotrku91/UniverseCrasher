@@ -20,7 +20,7 @@ constexpr auto BIGCARD_AREA_H=270;  */
 int main() {
 GameManager& Game = GameManager::getInstance();
 Game.initMainWindow();
-//Game.initTextureManager();
+Game.initTextureManager();
 Game.initKeyBindings();
 Game.runGameLoop();
 

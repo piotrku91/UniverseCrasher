@@ -12,7 +12,7 @@ void SceneFirst::begin() {
     Scene::begin();
 
     sf::Texture temp;
-    GameManager::getInstance().createGameObject<Player>(GameObjectsList_, "Player", temp, MAX_X / 2, MAX_Y - 200, 50, 50, true);
+    GameManager::getInstance().createGameObject<Player>(GameObjectsList_, "Player", GameManager::getInstance().getTexturesNet()->getTexture(5), MAX_X / 2, MAX_Y - 200, 75, 120, true);
     GameManager::getInstance().createGameObject<Balloon>(GameObjectsList_, "Balloon", temp, 500.f, 500.f, 25.f, 25.f);
     GameManager::getInstance().createGameObject<Balloon>(GameObjectsList_, "Balloon", temp, 100.f, 400.f, 25.f, 25.f);
     GameManager::getInstance().createGameObject<Balloon>(GameObjectsList_, "Balloon", temp, 600.f, 300.f, 25.f, 25.f);

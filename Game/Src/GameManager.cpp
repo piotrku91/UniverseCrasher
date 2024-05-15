@@ -2,6 +2,7 @@
 #include "WindowDrawManager.hpp"
 #include "GameObject.hpp"
 #include "Controller.hpp"
+#include "TextureNet.hpp"
 #include <algorithm>
 #include <numeric>
 
@@ -74,7 +75,9 @@ void GameManager::runGameLoop()
             break;
         }
 
+	    Textures_.getTexture(0).update(WindowDrawManager_.getWindow());
         WindowDrawManager_.draw();
+
         ExitApp_ = !WindowDrawManager_.isOpen();
     }
     WindowDrawManager_.destroy();
@@ -134,6 +137,7 @@ void GameManager::initKeyBindings()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GameManager::initTextureManager()
 {
+	Textures_.reload("../Textures/dupa2.png", 0, 0, 960, 480);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -270,4 +274,8 @@ void GameManager::someObjectDead(std::shared_ptr<GameObject> &dead_object)
 Controller& GameManager::getPlayerController()
 {
     return PlayerController_;
+}
+
+TextureNet *GameManager::getTexturesNet() {
+	return &Textures_;
 }

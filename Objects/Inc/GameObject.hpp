@@ -19,9 +19,11 @@ private:
 
 protected:
     sf::Sprite Sprite_;
+	sf::RectangleShape DebugRect_;
     GameObjectsComponentsList Components_;
 
 public:
+	virtual ~GameObject() {};
     virtual void begin() override;
     virtual void tick([[maybe_unused]] float delta_time) override;
 
@@ -32,9 +34,11 @@ public:
     void setPositionAbs(sf::Vector2f position);
 
     sf::Sprite& getSprite();
+	sf::RectangleShape& getDebugRect();
     std::string getObjectName();
     std::shared_ptr<GameObject> getSharedPtr();
     sf::Vector2f getPositionAbs();
+	sf::Vector2f getSize();
     
     void destroy();
     bool readyToDestroy() const;
@@ -45,4 +49,6 @@ public:
 
 private:
     void callInAllComponents(const std::function<void(std::shared_ptr<class GameObjectComponent>)>& callback);
+
+
 };

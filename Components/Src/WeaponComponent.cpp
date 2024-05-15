@@ -26,8 +26,9 @@ void WeaponComponent::triggerBullet()
     {
     case WeaponType::Arrow:
     {
-        sf::Vector2f player_position = GameManager::getInstance().getPlayerGameObject()->getPositionAbs();
-        GameManager::getInstance().spawnObjectAt<Arrow>(sf::Vector2f{player_position.x, player_position.y - 30}, 5.f, 5.f);
+        const sf::Vector2f player_position = GameManager::getInstance().getPlayerGameObject()->getPositionAbs();
+	    const sf::Vector2f player_size = GameManager::getInstance().getPlayerGameObject()->getSize();
+        GameManager::getInstance().spawnObjectAt<Arrow>(sf::Vector2f{player_position.x + (player_size.x / 2), player_position.y + (player_size.y / 3)}, 5.f, 5.f);
         LastSpawnTime_ = now;
         Ammo_--;
         break;

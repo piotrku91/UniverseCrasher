@@ -25,6 +25,7 @@ public:
 
         for (const auto &objectToRender : allObjects)
         {
+			Window.draw(objectToRender->getDebugRect());
             Window.draw(objectToRender->getSprite());
         }
     }

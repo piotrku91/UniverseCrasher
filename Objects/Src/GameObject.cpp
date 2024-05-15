@@ -27,6 +27,7 @@ void GameObject::onTakeDamage(std::shared_ptr<class GameObject> &other, float da
 void GameObject::setPositionInc(sf::Vector2f position) {
     float delta_time = GameManager::getInstance().getDeltaTime();
     Sprite_.move(position * delta_time);
+	DebugRect_.move(position * delta_time);
 }
 
 void GameObject::setPositionAbs(sf::Vector2f position) {
@@ -35,9 +36,18 @@ void GameObject::setPositionAbs(sf::Vector2f position) {
 
 sf::Sprite &GameObject::getSprite() { return Sprite_; }
 
+sf::RectangleShape &GameObject::getDebugRect() { return DebugRect_; }
+
 std::string GameObject::getObjectName() { return ObjectName_; }
 
 sf::Vector2f GameObject::getPositionAbs() { return Sprite_.getPosition(); }
+
+sf::Vector2f GameObject::getSize() {
+	const sf::Vector2f sprite_size (
+			Sprite_.getLocalBounds().width,
+			Sprite_.getLocalBounds().top);
+	return sprite_size;
+}
 
 void GameObject::destroy() {
     DestroyFlag_ = true;
@@ -47,12 +57,18 @@ bool GameObject::readyToDestroy() const {
     return DestroyFlag_;
 }
 
-GameObject::GameObject(std::string  objectName, const sf::Texture &texture, float posX, float posY,
+GameObject::GameObject(std::string  objectName, const sf::Texture& texture, float posX, float posY,
                        [[maybe_unused]] float sizeW, [[maybe_unused]] float sizeH)
         : ObjectName_(std::move(objectName)), DestroyFlag_(false) {
-    Sprite_ = sf::Sprite(texture, sf::IntRect(0, 0, static_cast<int>(sizeW), static_cast<int>(sizeH)));
+	DebugRect_ = sf::RectangleShape(sf::Vector2f(sizeW + 2, sizeH + 2));
+	DebugRect_.setFillColor(sf::Color::Red);
+	DebugRect_.setPosition(posX - 1, posY - 1);
+	DebugRect_.setOrigin(sf::Vector2f(15, 0));
+
+    Sprite_ = sf::Sprite(texture, sf::IntRect(35, 0, static_cast<int>(sizeW), static_cast<int>(sizeH)));
     Sprite_.setPosition(posX, posY);
     Sprite_.setOrigin(sf::Vector2f(15, 0));
+
 }
 
 void GameObject::registerComponents() {

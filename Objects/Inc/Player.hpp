@@ -13,5 +13,5 @@ public:
 
     void Fire();
 
-    Player(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH);
+    Player(const std::string &objectName, const sf::Texture& texture, float posX, float posY, float sizeW, float sizeH);
 };

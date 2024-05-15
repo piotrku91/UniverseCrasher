@@ -10,6 +10,7 @@
 #include "GameStates.hpp"
 #include "SceneFirst.hpp"
 #include "WindowDrawManager.hpp"
+#include "TextureNet.hpp"
 #include <type_traits>
 
 class GameManager
@@ -25,6 +26,7 @@ private:
     Controller PlayerController_;
     GameState CurrentGameState_;
     std::map<sf::Keyboard::Key, std::function<void()>> InputBindings_;
+	TextureNet Textures_;
 
     bool ExitApp_;
     float CurrentDeltaTime_;
@@ -63,6 +65,7 @@ public:
     Controller& getPlayerController();
     float getDeltaTime() const;
     float getTimeFromStartS();
+	TextureNet* getTexturesNet();
     void updateDeltaTime();
 
     /* Game events functions */
@@ -84,7 +87,7 @@ public:
     }
 
     template <typename T>
-    void createGameObject(GameObjectsList &game_objects_container, const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH, bool is_player = false)
+    void createGameObject(GameObjectsList &game_objects_container, const std::string &objectName, const sf::Texture& texture, float posX, float posY, float sizeW, float sizeH, bool is_player = false)
     {
         std::shared_ptr<T> new_object = createObject<T>({objectName, texture, posX, posY, sizeW, sizeH});
 

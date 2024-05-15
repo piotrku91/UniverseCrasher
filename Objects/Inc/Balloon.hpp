@@ -16,6 +16,6 @@ public:
     void onCollision([[maybe_unused]]std::shared_ptr<GameObject> &other) override;
     void registerComponents() override;
 
-    Balloon(const std::string &objectName, const sf::Texture &texture, float posX, float posY, float sizeW, float sizeH);
+    Balloon(const std::string &objectName, const sf::Texture& texture, float posX, float posY, float sizeW, float sizeH);
 };
 
